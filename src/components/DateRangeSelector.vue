@@ -49,7 +49,6 @@ const presetDates = ref([
 ]);
 
 const dateRange = ref<[Date, Date]>([new Date(), new Date()]);
-const formatDateOutput = (date: Date[]) => date.map(formatDate).join(' - ');
 
 function applyDateRange() {
   if (dateRange.value[0] && dateRange.value[1]) {
@@ -74,10 +73,10 @@ onMounted(() => {
         :min-date="props.validDateRange.start"
         :max-date="props.validDateRange.end"
         :enable-time-picker="false"
-        :format="formatDateOutput"
         :auto-apply="true"
         :preset-dates="presetDates"
-        range multi-calendars
+        format="yyyy-MM-dd"
+        range multi-calendars text-input
         class="rounded"
         @update:model-value="applyDateRange"/>
   </div>
