@@ -7,7 +7,9 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
   return {
-    base: '/',
+    base: process.env.NODE_ENV === 'production'
+      ? env.VITE_REPO_NAME || '/'
+      : '/',
     plugins: [vue()],
     resolve: {
       alias: {
