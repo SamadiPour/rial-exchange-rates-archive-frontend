@@ -1,11 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Run prettier to format code
+#!/bin/sh
 npm run format
-
-# Run eslint with auto-fix
 npm run lint
-
-# Add any formatted/fixed files back to the commit
-git add .
