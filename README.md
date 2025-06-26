@@ -3,6 +3,8 @@
 A modern, interactive web application for visualizing Iranian Rial exchange rates against various international
 currencies. Built with Vue 3, TypeScript, and Chart.js, featuring data export capabilities.
 
+![Website Screenshot](https://github.com/user-attachments/assets/85d56763-2e8f-4ab4-a68e-40096dbbba0c)
+
 ## ✨ Features
 
 ### 📊 Data Visualization
