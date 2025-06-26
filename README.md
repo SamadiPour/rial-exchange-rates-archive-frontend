@@ -16,9 +16,8 @@ currencies. Built with Vue 3, TypeScript, and Chart.js, featuring data export ca
 ## 🚀 Getting Started
 
 ### Prerequisites
-
 - Node.js 18+
-- npm or yarn
+- npm, yarn, or pnpm
 
 ### Installation
 
@@ -51,10 +50,13 @@ The build artifacts will be stored in the `dist/` directory.
 
 ## 🛠 Tech Stack
 
-- **Frontend Framework**: Vue 3 with TypeScript
+- **Framework**: Vue 3 with Composition API
+- **Language**: TypeScript
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS
 - **Charts**: Chart.js with vue-chartjs
+- **Linting**: ESLint + Prettier
+- **Router**: Vue Router 4
 
 ## 🔗 Data Source
 
