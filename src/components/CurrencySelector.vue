@@ -1,40 +1,46 @@
 <script setup lang="ts">
-import {computed} from 'vue';
-import {CURRENCIES} from '../constants/currencies';
+import { computed } from 'vue';
+import { CURRENCIES } from '../constants/currencies';
 import Multiselect from 'vue-multiselect';
 
-const selectedCurrencies = defineModel<string[]>('selectedCurrencies', {default: () => []});
+const selectedCurrencies = defineModel<string[]>('selectedCurrencies', {
+  default: () => [],
+});
 
 const currencies = Object.entries(CURRENCIES).map(([code, details]) => ({
-  code: code,
+  code,
   label: `${details.flag || ''} ${details.name} (${code.toUpperCase()})`,
 }));
 
 const selectedCurrencyObjects = computed({
-  get: () => currencies.filter(currency => selectedCurrencies.value.includes(currency.code)),
+  get: () =>
+    currencies.filter((currency) =>
+      selectedCurrencies.value.includes(currency.code),
+    ),
   set: (values: any[]) => {
-    selectedCurrencies.value = values.map(v => v.code);
-  }
+    selectedCurrencies.value = values.map((v) => v.code);
+  },
 });
 </script>
 
 <template>
   <div class="w-full">
     <Multiselect
-        v-model="selectedCurrencyObjects"
-        :options="currencies"
-        :multiple="true"
-        :close-on-select="false"
-        :clear-on-select="false"
-        placeholder="Select currencies"
-        label="label"
-        track-by="code"
-        class="dark-multiselect"
+      v-model="selectedCurrencyObjects"
+      :options="currencies"
+      :multiple="true"
+      :close-on-select="false"
+      :clear-on-select="false"
+      placeholder="Select currencies"
+      label="label"
+      track-by="code"
+      class="dark-multiselect"
     />
   </div>
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
+
 <style>
 /* Dark mode styles for vue-multiselect */
 .dark .dark-multiselect .multiselect {

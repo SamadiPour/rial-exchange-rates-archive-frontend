@@ -1,4 +1,4 @@
-import {parse} from 'date-fns';
+import { parse } from 'date-fns';
 
 // use only for YYYY/MM/DD
 export function parseDate(input: string): Date {

@@ -1,9 +1,18 @@
-export const verticalHoverLine = {
+import { Chart, Plugin } from 'chart.js';
+
+export const verticalHoverLine: Plugin<'line'> = {
   id: 'verticalHoverLine',
-  beforeDatasetsDraw(chart: any, args: any, plugins: any) {
-    const {ctx, chartArea: {top, bottom, height}} = chart;
+  beforeDatasetsDraw(
+    chart: Chart<'line'>,
+    args: { cancelable: boolean },
+    plugins: Record<string, unknown>,
+  ) {
+    const {
+      ctx,
+      chartArea: { top, bottom },
+    } = chart;
     ctx.save();
-    chart.getDatasetMeta(0).data.forEach((dataPoint: any, index: any) => {
+    chart.getDatasetMeta(0).data.forEach((dataPoint: any) => {
       if (dataPoint.active === true) {
         ctx.beginPath();
         ctx.strokeStyle = '#d3d3d3';
@@ -12,7 +21,7 @@ export const verticalHoverLine = {
         ctx.lineTo(dataPoint.x, bottom);
         ctx.stroke();
       }
-    })
-    ctx.restore()
-  }
-}
+    });
+    ctx.restore();
+  },
+};
