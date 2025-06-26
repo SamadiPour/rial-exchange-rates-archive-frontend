@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* fix mac overscroll background color */
+:root {
+  background-color: #f3f4f6; /* Tailwind bg-gray-100 */
+}
+.dark:root {
+  background-color: #111827; /* Tailwind bg-gray-900 */
+}
+body {
+  background-color: #f3f4f6; /* Tailwind bg-gray-100 */
+  color-scheme: light dark;
+}
+.dark body {
+  background-color: #111827; /* Tailwind bg-gray-900 */
+}
