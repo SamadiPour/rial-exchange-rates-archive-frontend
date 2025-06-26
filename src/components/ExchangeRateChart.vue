@@ -2,21 +2,22 @@
 import {computed} from 'vue';
 import {Line} from 'vue-chartjs';
 import {
+  CategoryScale,
   Chart as ChartJS,
+  Filler,
+  Legend,
+  LinearScale,
   LineElement,
   PointElement,
-  CategoryScale,
-  LinearScale,
   TimeScale,
   Title,
   Tooltip,
-  Legend,
-  Filler,
 } from 'chart.js';
 import {DateRange, ExchangeRatesData} from '../types/exchange';
 import {CURRENCIES} from '../constants/currencies';
 import {hexToRGBA} from "../utils/utils.ts";
 import {verticalHoverLine} from "../utils/chart-plugins.ts";
+import {useTheme} from '../composables/useTheme';
 import 'chartjs-adapter-date-fns';
 
 ChartJS.register(
@@ -39,6 +40,8 @@ const props = defineProps<{
   roiEnabled: boolean;
 }>();
 
+const {isDark} = useTheme();
+
 const filteredDates = computed(() => {
   return Object.entries(props.data)
       .map(([key, _]) => ({key, date: new Date(key)}))
@@ -48,8 +51,9 @@ const filteredDates = computed(() => {
 });
 
 const chartData = computed(() => {
+  const lastMonthRange = (props.dateRange.end.getTime() - props.dateRange.start.getTime()) / (1000 * 60 * 60 * 24) <= 31;
+
   const datasets = props.selectedCurrencies.map(currency => {
-    const lastMonthRange = (props.dateRange.end.getTime() - props.dateRange.start.getTime()) / (1000 * 60 * 60 * 24) <= 31;
     const currencyData = CURRENCIES[currency];
     const data = filteredDates.value.map(date => props.data[date.key]?.[currency]?.sell || null);
 
@@ -89,6 +93,12 @@ const chartOptions = computed(() => {
   // more than 6 months
   const isLongTerm = (props.dateRange.end.getTime() - props.dateRange.start.getTime()) / (1000 * 60 * 60 * 24) > 180;
 
+  const textColor = isDark.value ? '#e5e7eb' : '#374151';
+  const gridColor = isDark.value ? '#374151' : '#e5e7eb';
+  const tooltipBg = isDark.value ? '#1f2937' : '#ffffff';
+  const tooltipText = isDark.value ? '#e5e7eb' : '#333333';
+  const tooltipBorder = isDark.value ? '#4b5563' : '#d1d5db';
+
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -109,6 +119,7 @@ const chartOptions = computed(() => {
         },
         grid: {
           display: false,
+          color: gridColor,
         },
         title: {
           display: false,
@@ -116,6 +127,7 @@ const chartOptions = computed(() => {
         },
         ticks: {
           maxTicksLimit: 15,
+          color: textColor,
           major: {
             enabled: true
           },
@@ -131,8 +143,10 @@ const chartOptions = computed(() => {
       y: {
         grid: {
           drawBorder: false,
+          color: gridColor,
         },
         ticks: {
+          color: textColor,
           callback: props.roiEnabled ? function (value: number) {
             return `${value}%`;
           } : undefined,
@@ -146,6 +160,7 @@ const chartOptions = computed(() => {
         labels: {
           boxWidth: 30,
           boxHeight: 10,
+          color: textColor,
           font: {
             weight: 'bold',
           },
@@ -157,9 +172,9 @@ const chartOptions = computed(() => {
         position: 'nearest',
         intersect: false,
         // box itself
-        backgroundColor: '#ffffff',
-        titleColor: '#333',
-        bodyColor: '#666',
+        backgroundColor: tooltipBg,
+        titleColor: tooltipText,
+        bodyColor: tooltipText,
         padding: 12,
         bodySpacing: 6,
         titleMarginBottom: 8,
@@ -167,7 +182,7 @@ const chartOptions = computed(() => {
         caretSize: 0,
         caretPadding: 12,
         // border
-        borderColor: '#ddd',
+        borderColor: tooltipBorder,
         borderWidth: 1.4,
         // color box style
         displayColors: true,
@@ -209,7 +224,7 @@ const chartOptions = computed(() => {
         aria-label="Exchange rate chart"
         role="img"
     />
-    <div v-else class="flex items-center justify-center h-full">
+    <div v-else class="flex items-center justify-center h-full text-gray-500 dark:text-gray-400">
       Please select at least one currency to display the chart
     </div>
   </div>

@@ -3,7 +3,9 @@ import {onMounted, ref} from 'vue';
 import {subDays, subMonths, subYears} from 'date-fns';
 import {DateRange} from "../types/exchange.ts";
 import VueDatePicker from '@vuepic/vue-datepicker';
-import {formatDate} from "../utils/utils.ts";
+import {useTheme} from '../composables/useTheme';
+
+const {isDark} = useTheme();
 
 const emit = defineEmits(['update:dateRange']);
 const props = defineProps({
@@ -77,7 +79,33 @@ onMounted(() => {
         :preset-dates="presetDates"
         format="yyyy-MM-dd"
         range multi-calendars text-input
+        :dark="isDark"
         class="rounded"
         @update:model-value="applyDateRange"/>
   </div>
 </template>
+
+<style>
+/* Additional dark mode styles for vue-datepicker if needed */
+.dark .dp__theme_dark {
+  --dp-background-color: #1f2937;
+  --dp-text-color: #e5e7eb;
+  --dp-hover-color: #374151;
+  --dp-hover-text-color: #e5e7eb;
+  --dp-hover-icon-color: #e5e7eb;
+  --dp-primary-color: #3b82f6;
+  --dp-primary-text-color: #ffffff;
+  --dp-secondary-color: #6b7280;
+  --dp-border-color: #4b5563;
+  --dp-menu-border-color: #4b5563;
+  --dp-border-color-hover: #6b7280;
+  --dp-disabled-color: #4b5563;
+  --dp-scroll-bar-background: #374151;
+  --dp-scroll-bar-color: #6b7280;
+  --dp-success-color: #10b981;
+  --dp-success-color-disabled: #065f46;
+  --dp-icon-color: #9ca3af;
+  --dp-danger-color: #ef4444;
+  --dp-highlight-color: rgba(59, 130, 246, 0.1);
+}
+</style>

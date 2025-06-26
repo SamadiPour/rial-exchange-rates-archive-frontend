@@ -1,36 +1,92 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { CURRENCIES } from '../constants/currencies';
+import {computed} from 'vue';
+import {CURRENCIES} from '../constants/currencies';
 import Multiselect from 'vue-multiselect';
 
-const emit = defineEmits(['update:selectedCurrencies']);
+const selectedCurrencies = defineModel<string[]>('selectedCurrencies', {default: () => []});
 
-const selectedCurrencies = ref<any[]>([]);
 const currencies = Object.entries(CURRENCIES).map(([code, details]) => ({
   code: code,
   label: `${details.flag || ''} ${details.name} (${code.toUpperCase()})`,
 }));
 
-function updateSelection(values: any[]) {
-  selectedCurrencies.value = values;
-  emit('update:selectedCurrencies', values.map(v => v.code));
-}
+const selectedCurrencyObjects = computed({
+  get: () => currencies.filter(currency => selectedCurrencies.value.includes(currency.code)),
+  set: (values: any[]) => {
+    selectedCurrencies.value = values.map(v => v.code);
+  }
+});
 </script>
 
 <template>
   <div class="w-full">
     <Multiselect
-      v-model="selectedCurrencies"
-      :options="currencies"
-      :multiple="true"
-      :close-on-select="false"
-      :clear-on-select="false"
-      placeholder="Select currencies"
-      label="label"
-      track-by="code"
-      @update:modelValue="updateSelection"
+        v-model="selectedCurrencyObjects"
+        :options="currencies"
+        :multiple="true"
+        :close-on-select="false"
+        :clear-on-select="false"
+        placeholder="Select currencies"
+        label="label"
+        track-by="code"
+        class="dark-multiselect"
     />
   </div>
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
+<style>
+/* Dark mode styles for vue-multiselect */
+.dark .dark-multiselect .multiselect {
+  @apply bg-gray-800 border-gray-600;
+}
+
+.dark .dark-multiselect .multiselect__tags {
+  @apply bg-gray-800 border-gray-600;
+}
+
+.dark .dark-multiselect .multiselect__input,
+.dark .dark-multiselect .multiselect__single {
+  @apply bg-gray-800 text-gray-200;
+}
+
+.dark .dark-multiselect .multiselect__placeholder {
+  @apply text-gray-400;
+}
+
+.dark .dark-multiselect .multiselect__content-wrapper {
+  @apply bg-gray-800 border-gray-600;
+}
+
+.dark .dark-multiselect .multiselect__content {
+  @apply bg-gray-800;
+}
+
+.dark .dark-multiselect .multiselect__option {
+  @apply text-gray-200;
+}
+
+.dark .dark-multiselect .multiselect__option--highlight {
+  @apply bg-blue-600 text-white;
+}
+
+.dark .dark-multiselect .multiselect__option--selected {
+  @apply bg-blue-700 text-white;
+}
+
+.dark .dark-multiselect .multiselect__tag {
+  @apply bg-blue-600 text-white;
+}
+
+.dark .dark-multiselect .multiselect__tag-icon:after {
+  @apply text-white;
+}
+
+.dark .dark-multiselect .multiselect__tag-icon:hover {
+  @apply bg-blue-700;
+}
+
+.dark .dark-multiselect .multiselect__select:before {
+  @apply border-t-gray-400;
+}
+</style>
