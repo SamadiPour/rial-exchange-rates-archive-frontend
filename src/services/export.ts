@@ -9,7 +9,7 @@ import { format, isValid, isWithinInterval, parseISO } from 'date-fns';
 export class ExportService {
   private static instance: ExportService;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): ExportService {
     if (!ExportService.instance) {
@@ -19,11 +19,12 @@ export class ExportService {
   }
 
   /**
-   * Filters exchange rate data by the specified date range
+   * Filters exchange rate data by date range and optionally by selected currencies
    */
-  private filterDataByDateRange(
+  private filterData(
     data: ExchangeRatesData,
     dateRange: DateRange,
+    currencies?: string[],
   ): ExchangeRatesData {
     const filtered: ExchangeRatesData = {};
 
@@ -36,7 +37,24 @@ export class ExportService {
           isValid(date) &&
           isWithinInterval(date, { start: dateRange.start, end: dateRange.end })
         ) {
-          filtered[dateStr] = data[dateStr];
+          const dayData = data[dateStr];
+
+          if (currencies) {
+            // Filter by selected currencies
+            const filteredDayData: { [key: string]: any } = {};
+            currencies.forEach((currency) => {
+              if (dayData[currency]) {
+                filteredDayData[currency] = dayData[currency];
+              }
+            });
+
+            if (Object.keys(filteredDayData).length > 0) {
+              filtered[dateStr] = filteredDayData;
+            }
+          } else {
+            // Include all currencies for this date
+            filtered[dateStr] = dayData;
+          }
         }
       } catch (error) {
         console.warn(`Failed to parse date: ${dateStr}`, error);
@@ -73,7 +91,7 @@ export class ExportService {
     currencies: string[],
     dateRange: DateRange,
   ): void {
-    const filteredData = this.filterDataByDateRange(data, dateRange);
+    const filteredData = this.filterData(data, dateRange, currencies);
 
     // Create CSV header
     const header = [
@@ -120,7 +138,7 @@ export class ExportService {
     currencies: string[],
     dateRange: DateRange,
   ): void {
-    const filteredData = this.filterDataByDateRange(data, dateRange);
+    const filteredData = this.filterData(data, dateRange, currencies);
 
     const exportData = {
       metadata: {
@@ -150,7 +168,7 @@ export class ExportService {
     currencies: string[],
     dateRange: DateRange,
   ): void {
-    const filteredData = this.filterDataByDateRange(data, dateRange);
+    const filteredData = this.filterData(data, dateRange, currencies);
 
     let xmlContent = '<?xml version="1.0" encoding="UTF-8"?>\n';
     xmlContent += '<exchangeRates>\n';
