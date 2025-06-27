@@ -5,7 +5,7 @@
       @click="toggleDropdown"
     >
       <Download class="w-4 h-4" />
-      <span>Export</span>
+      <span class="font-medium" style="font-size: 0.91rem;">Export</span>
       <ChevronDown class="w-4 h-4" />
     </button>
 

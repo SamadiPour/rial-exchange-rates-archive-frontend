@@ -16,3 +16,14 @@ body {
 .dark body {
   background-color: #111827; /* Tailwind bg-gray-900 */
 }
+
+/* Text selection styling */
+::selection {
+  background-color: #3b82f6; /* Standard blue selection */
+  color: white;
+}
+
+::-moz-selection {
+  background-color: #3b82f6; /* Standard blue selection for Firefox */
+  color: white;
+}

@@ -9,7 +9,7 @@ import { format, isValid, isWithinInterval, parseISO } from 'date-fns';
 export class ExportService {
   private static instance: ExportService;
 
-  private constructor() { }
+  private constructor() {}
 
   public static getInstance(): ExportService {
     if (!ExportService.instance) {
