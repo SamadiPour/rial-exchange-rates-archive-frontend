@@ -26,13 +26,21 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         output: {
-          manualChunks(id) {
-            if (id.includes('node_modules')) {
-              return id.toString().split('node_modules/')[1].split('/')[0].toString();
-            }
+          manualChunks: {
+            // Vendor chunks
+            'vue-vendor': ['vue', 'vue-router'],
+            'chart-vendor': ['chart.js', 'vue-chartjs', 'chartjs-adapter-date-fns'],
+            'ui-vendor': ['@vueuse/core', 'lucide-vue-next'],
+            'utils-vendor': ['date-fns', 'axios'],
+            
+            // Lazy-loaded heavy libraries
+            'export-pdf': ['jspdf'],
+            'export-canvas': ['html2canvas'],
+            'datepicker': ['@vuepic/vue-datepicker'],
           }
         }
       },
+      chunkSizeWarningLimit: 1000,
     },
   }
 })

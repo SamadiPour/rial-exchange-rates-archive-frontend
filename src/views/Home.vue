@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, defineAsyncComponent } from 'vue';
 import { fetchExchangeRates, getDateRange } from '@/services/exchange-rates';
 import DateRangeSelector from '@/components/DateRangeSelector.vue';
 import CurrencySelector from '@/components/CurrencySelector.vue';
 import ExchangeRateChart from '@/components/ExchangeRateChart.vue';
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue';
-import ExportMenu from '@/components/ExportMenu.vue';
 import type { DateRange, ExchangeRatesData } from '@/types/exchange';
 import { LineChart } from 'lucide-vue-next';
 import { subMonths } from 'date-fns';
 import { useUrlState } from '@/composables/useUrlState';
+
+// Lazy load ExportMenu as it contains heavy export functionality
+const ExportMenu = defineAsyncComponent(
+  () => import('@/components/ExportMenu.vue'),
+);
 
 const urlState = useUrlState();
 

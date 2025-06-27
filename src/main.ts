@@ -1,11 +1,9 @@
 import { createApp } from 'vue';
-import '@/assets/style.css';
-import '@/index.css';
-import App from '@/App.vue';
-import router from '@/router';
-import { createErrorHandler } from '@/plugins/error-handler';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
+import './assets/style.css';
+import './index.css';
+import App from './App.vue';
+import router from './router';
+import { createErrorHandler } from './plugins/error-handler';
 
 const app = createApp(App);
 
@@ -18,6 +16,4 @@ app.use(
   }),
 );
 
-// Register global components
-app.component('VueDatePicker', VueDatePicker);
 app.mount('#app');

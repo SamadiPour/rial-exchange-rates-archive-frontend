@@ -12,7 +12,7 @@ currencies. Built with Vue 3, TypeScript, and Chart.js, featuring data export ca
 - **ROI Mode**: Calculate and display return on investment percentages
 - **Multi-Currency Support**: Compare multiple currencies simultaneously
 - **Dark/Light Theme**: Toggle between themes with system preference detection
-- **Data Export**: Export exchange rate data as CSV or Excel files
+- **Data Export**: Export exchange rate data as CSV, JSON or XML files
 - **Chart Export**: Save charts as PNG, SVG, or PDF
 
 ## 🚀 Getting Started

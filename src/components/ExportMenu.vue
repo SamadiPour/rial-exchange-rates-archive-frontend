@@ -30,10 +30,18 @@
         <button
           :disabled="isExporting"
           class="flex items-center space-x-3 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
-          @click="handleExport('excel')"
+          @click="handleExport('json')"
         >
-          <FileSpreadsheet class="w-4 h-4" />
-          <span>Export as Excel</span>
+          <Database class="w-4 h-4" />
+          <span>Export as JSON</span>
+        </button>
+        <button
+          :disabled="isExporting"
+          class="flex items-center space-x-3 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+          @click="handleExport('xml')"
+        >
+          <Code class="w-4 h-4" />
+          <span>Export as XML</span>
         </button>
 
         <hr class="my-2 border-gray-200 dark:border-gray-600" />
@@ -88,8 +96,10 @@ import {
   FileSpreadsheet,
   Image,
   FileImage,
+  Database,
+  Code,
 } from 'lucide-vue-next';
-import { useExport } from '../composables/useExport';
+import { exportService } from '@/services';
 import type { ExchangeRatesData, DateRange } from '../types/exchange';
 
 interface Props {
@@ -101,14 +111,6 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const {
-  exportAsCSV,
-  exportAsExcel,
-  exportChartAsPNG,
-  exportChartAsSVG,
-  exportChartAsPDF,
-} = useExport();
-
 const isOpen = ref(false);
 const isExporting = ref(false);
 
@@ -116,7 +118,9 @@ const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-const handleExport = async (type: 'csv' | 'excel' | 'png' | 'svg' | 'pdf') => {
+const handleExport = async (
+  type: 'csv' | 'json' | 'xml' | 'png' | 'svg' | 'pdf',
+) => {
   if (isExporting.value) return;
 
   isExporting.value = true;
@@ -125,24 +129,39 @@ const handleExport = async (type: 'csv' | 'excel' | 'png' | 'svg' | 'pdf') => {
   try {
     switch (type) {
       case 'csv':
-        exportAsCSV(props.data, props.selectedCurrencies, props.dateRange);
+        exportService.exportDataAsCSV(
+          props.data,
+          props.selectedCurrencies,
+          props.dateRange,
+        );
         break;
-      case 'excel':
-        exportAsExcel(props.data, props.selectedCurrencies, props.dateRange);
+      case 'json':
+        exportService.exportDataAsJSON(
+          props.data,
+          props.selectedCurrencies,
+          props.dateRange,
+        );
+        break;
+      case 'xml':
+        exportService.exportDataAsXML(
+          props.data,
+          props.selectedCurrencies,
+          props.dateRange,
+        );
         break;
       case 'png':
         if (props.chartElement) {
-          await exportChartAsPNG(props.chartElement);
+          await exportService.exportChartAsPNG(props.chartElement);
         }
         break;
       case 'svg':
         if (props.chartElement) {
-          await exportChartAsSVG(props.chartElement);
+          await exportService.exportChartAsSVG(props.chartElement);
         }
         break;
       case 'pdf':
         if (props.chartElement) {
-          await exportChartAsPDF(props.chartElement);
+          await exportService.exportChartAsPDF(props.chartElement);
         }
         break;
     }
