@@ -72,7 +72,9 @@ onMounted(async () => {
 
 <template>
   <div class="max-w-7xl mx-auto space-y-8">
-    <div class="flex items-center justify-between">
+    <div
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
+    >
       <div class="flex items-center space-x-3">
         <LineChart class="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
