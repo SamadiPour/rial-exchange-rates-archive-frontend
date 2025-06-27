@@ -42,7 +42,11 @@ const selectedCurrencyObjects = computed({
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <style>
-/* Dark mode styles for vue-multiselect */
+.dark-multiselect .multiselect__tag {
+  @apply font-medium;
+}
+
+/* Dark mode styles - gray theme */
 .dark .dark-multiselect .multiselect {
   @apply bg-gray-800 border-gray-600;
 }
@@ -73,23 +77,23 @@ const selectedCurrencyObjects = computed({
 }
 
 .dark .dark-multiselect .multiselect__option--highlight {
-  @apply bg-blue-600 text-white;
+  @apply bg-gray-700 text-gray-100;
 }
 
 .dark .dark-multiselect .multiselect__option--selected {
-  @apply bg-blue-700 text-white;
+  @apply bg-gray-600 text-gray-100 font-medium;
 }
 
 .dark .dark-multiselect .multiselect__tag {
-  @apply bg-blue-600 text-white;
+  @apply bg-gray-600 text-gray-100 font-medium;
 }
 
 .dark .dark-multiselect .multiselect__tag-icon:after {
-  @apply text-white;
+  @apply text-gray-300;
 }
 
 .dark .dark-multiselect .multiselect__tag-icon:hover {
-  @apply bg-blue-700;
+  @apply bg-gray-700;
 }
 
 .dark .dark-multiselect .multiselect__select:before {
