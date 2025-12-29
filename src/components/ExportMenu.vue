@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div ref="menuRef" class="relative">
     <button
       class="flex items-center space-x-2 px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
       @click="toggleDropdown"
@@ -11,7 +11,7 @@
 
     <div
       v-if="isOpen"
-      class="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50"
+      class="absolute left-0 sm:left-auto sm:right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50"
     >
       <div class="py-2">
         <div
@@ -113,6 +113,7 @@ const props = defineProps<Props>();
 
 const isOpen = ref(false);
 const isExporting = ref(false);
+const menuRef = ref<HTMLElement | null>(null);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
@@ -174,16 +175,16 @@ const handleExport = async (
 };
 
 const closeDropdown = (event: Event) => {
-  if (!(event.target as Element).closest('.relative')) {
+  if (menuRef.value && !menuRef.value.contains(event.target as Node)) {
     isOpen.value = false;
   }
 };
 
 onMounted(() => {
-  document.addEventListener('click', closeDropdown);
+  document.addEventListener('click', closeDropdown, true);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', closeDropdown);
+  document.removeEventListener('click', closeDropdown, true);
 });
 </script>

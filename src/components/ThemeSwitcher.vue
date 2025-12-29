@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div ref="switcherRef" class="relative">
     <button
       class="flex items-center space-x-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       @click="toggleDropdown"
@@ -36,6 +36,7 @@ import { useTheme } from '../composables/useTheme';
 
 const { theme, setTheme } = useTheme();
 const isOpen = ref(false);
+const switcherRef = ref<HTMLElement | null>(null);
 
 const themeOptions = [
   { value: 'light' as const, label: 'Light', icon: Sun },
@@ -62,16 +63,16 @@ const selectTheme = (value: 'light' | 'dark' | 'system') => {
 };
 
 const closeDropdown = (event: Event) => {
-  if (!(event.target as Element).closest('.relative')) {
+  if (switcherRef.value && !switcherRef.value.contains(event.target as Node)) {
     isOpen.value = false;
   }
 };
 
 onMounted(() => {
-  document.addEventListener('click', closeDropdown);
+  document.addEventListener('click', closeDropdown, true);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('click', closeDropdown);
+  document.removeEventListener('click', closeDropdown, true);
 });
 </script>

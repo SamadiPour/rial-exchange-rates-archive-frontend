@@ -123,7 +123,7 @@ onMounted(async () => {
         <h2 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
           Select Currencies
         </h2>
-        <div class="flex items-center space-x-4">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
           <div class="flex-1">
             <CurrencySelector
               v-model:selected-currencies="selectedCurrencies"
