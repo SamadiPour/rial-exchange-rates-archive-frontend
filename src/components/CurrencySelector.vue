@@ -42,6 +42,8 @@ const selectedCurrencyObjects = computed({
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <style>
+@reference "tailwindcss";
+
 .dark-multiselect .multiselect__tag {
   @apply font-medium;
 }

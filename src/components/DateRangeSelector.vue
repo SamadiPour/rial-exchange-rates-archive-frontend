@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { subDays, subMonths, subYears } from 'date-fns';
 import { DateRange } from '../types/exchange.ts';
-import VueDatePicker from '@vuepic/vue-datepicker';
+import { VueDatePicker } from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useTheme } from '../composables/useTheme';
 

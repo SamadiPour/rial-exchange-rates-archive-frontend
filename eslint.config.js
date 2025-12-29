@@ -1,10 +1,10 @@
-import js from '@eslint/js'
-import vue from 'eslint-plugin-vue'
-import typescript from '@typescript-eslint/eslint-plugin'
-import typescriptParser from '@typescript-eslint/parser'
-import vueParser from 'vue-eslint-parser'
-import prettier from 'eslint-plugin-prettier'
-import prettierConfig from 'eslint-config-prettier'
+import js from '@eslint/js';
+import vue from 'eslint-plugin-vue';
+import typescript from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
+import vueParser from 'vue-eslint-parser';
+import prettier from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 
 export default [
   js.configs.recommended,
@@ -17,7 +17,7 @@ export default [
         parser: typescriptParser,
         ecmaVersion: 'latest',
         sourceType: 'module',
-        extraFileExtensions: ['.vue']
+        extraFileExtensions: ['.vue'],
       },
       globals: {
         // Browser globals
@@ -32,12 +32,12 @@ export default [
         URL: 'readonly',
         URLSearchParams: 'readonly',
         Blob: 'readonly',
-        NodeJS: 'readonly'
-      }
+        NodeJS: 'readonly',
+      },
     },
     plugins: {
       '@typescript-eslint': typescript,
-      prettier
+      prettier,
     },
     rules: {
       // Vue.js specific rules
@@ -48,22 +48,31 @@ export default [
       'vue/component-definition-name-casing': ['error', 'PascalCase'],
       'vue/component-name-in-template-casing': ['error', 'PascalCase'],
       'vue/custom-event-name-casing': ['error', 'camelCase'],
-      'vue/define-macros-order': ['error', {
-        order: ['defineProps', 'defineEmits']
-      }],
-      'vue/html-self-closing': ['error', {
-        html: {
-          void: 'never',
-          normal: 'always',
-          component: 'always'
+      'vue/define-macros-order': [
+        'error',
+        {
+          order: ['defineProps', 'defineEmits'],
         },
-        svg: 'always',
-        math: 'always'
-      }],
-      'vue/max-attributes-per-line': ['error', {
-        singleline: 2,
-        multiline: 1
-      }],
+      ],
+      'vue/html-self-closing': [
+        'error',
+        {
+          html: {
+            void: 'never',
+            normal: 'always',
+            component: 'always',
+          },
+          svg: 'always',
+          math: 'always',
+        },
+      ],
+      'vue/max-attributes-per-line': [
+        'error',
+        {
+          singleline: 2,
+          multiline: 1,
+        },
+      ],
       'vue/padding-line-between-blocks': ['error', 'always'],
 
       // TypeScript specific rules
@@ -81,10 +90,11 @@ export default [
       'no-var': 'error',
       'object-shorthand': 'error',
       'prefer-arrow-callback': 'error',
+      'no-undef': 'off',
 
       // Prettier integration
-      'prettier/prettier': 'error'
-    }
+      'prettier/prettier': 'error',
+    },
   },
   {
     files: ['**/*.ts', '**/*.tsx'],
@@ -92,17 +102,17 @@ export default [
       parser: typescriptParser,
       parserOptions: {
         ecmaVersion: 'latest',
-        sourceType: 'module'
-      }
+        sourceType: 'module',
+      },
     },
     plugins: {
-      '@typescript-eslint': typescript
+      '@typescript-eslint': typescript,
     },
     rules: {
       ...typescript.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/no-explicit-any': 'warn',      
-    }
+      '@typescript-eslint/no-explicit-any': 'warn',
+    },
   },
   prettierConfig,
   {
@@ -115,7 +125,7 @@ export default [
       '*.config.ts',
       'vite.config.ts',
       'postcss.config.js',
-      'tailwind.config.js'
-    ]
-  }
-]
+      'tailwind.config.js',
+    ],
+  },
+];
