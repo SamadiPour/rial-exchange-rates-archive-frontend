@@ -48,57 +48,57 @@ const selectedCurrencyObjects = computed({
   @apply font-medium;
 }
 
-/* Dark mode styles - gray theme */
+/* Dark mode styles - zinc theme */
 .dark .dark-multiselect .multiselect {
-  @apply bg-gray-800 border-gray-600;
+  @apply bg-zinc-900 border-zinc-700;
 }
 
 .dark .dark-multiselect .multiselect__tags {
-  @apply bg-gray-800 border-gray-600;
+  @apply bg-zinc-900 border-zinc-700;
 }
 
 .dark .dark-multiselect .multiselect__input,
 .dark .dark-multiselect .multiselect__single {
-  @apply bg-gray-800 text-gray-200;
+  @apply bg-zinc-900 text-zinc-200;
 }
 
 .dark .dark-multiselect .multiselect__placeholder {
-  @apply text-gray-400;
+  @apply text-zinc-500;
 }
 
 .dark .dark-multiselect .multiselect__content-wrapper {
-  @apply bg-gray-800 border-gray-600;
+  @apply bg-zinc-900 border-zinc-700;
 }
 
 .dark .dark-multiselect .multiselect__content {
-  @apply bg-gray-800;
+  @apply bg-zinc-900;
 }
 
 .dark .dark-multiselect .multiselect__option {
-  @apply text-gray-200;
+  @apply text-zinc-200;
 }
 
 .dark .dark-multiselect .multiselect__option--highlight {
-  @apply bg-gray-700 text-gray-100;
+  @apply bg-zinc-800 text-zinc-100;
 }
 
 .dark .dark-multiselect .multiselect__option--selected {
-  @apply bg-gray-600 text-gray-100 font-medium;
+  @apply bg-zinc-700 text-zinc-100 font-medium;
 }
 
 .dark .dark-multiselect .multiselect__tag {
-  @apply bg-gray-600 text-gray-100 font-medium;
+  @apply bg-zinc-700 text-zinc-100 font-medium;
 }
 
 .dark .dark-multiselect .multiselect__tag-icon:after {
-  @apply text-gray-300;
+  @apply text-zinc-300;
 }
 
 .dark .dark-multiselect .multiselect__tag-icon:hover {
-  @apply bg-gray-700;
+  @apply bg-zinc-600;
 }
 
 .dark .dark-multiselect .multiselect__select:before {
-  @apply border-t-gray-400;
+  @apply border-t-zinc-400;
 }
 </style>

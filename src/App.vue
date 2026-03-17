@@ -6,7 +6,7 @@ const { isDark } = useTheme();
 
 <template>
   <div
-    class="h-full min-h-screen bg-gray-100 dark:bg-gray-900 p-8 transition-colors"
+    class="h-full min-h-screen bg-zinc-50 dark:bg-zinc-950 p-8 transition-colors"
   >
     <RouterView />
   </div>

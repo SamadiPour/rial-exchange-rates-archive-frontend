@@ -94,26 +94,26 @@ onMounted(() => {
 </template>
 
 <style>
-/* Additional dark mode styles for vue-datepicker if needed */
+/* Dark mode styles for vue-datepicker — zinc theme with green accent */
 .dark .dp__theme_dark {
-  --dp-background-color: #1f2937;
-  --dp-text-color: #e5e7eb;
-  --dp-hover-color: #374151;
-  --dp-hover-text-color: #e5e7eb;
-  --dp-hover-icon-color: #e5e7eb;
-  --dp-primary-color: #3b82f6;
+  --dp-background-color: #18181b; /* zinc-900 */
+  --dp-text-color: #e4e4e7; /* zinc-200 */
+  --dp-hover-color: #27272a; /* zinc-800 */
+  --dp-hover-text-color: #f4f4f5; /* zinc-100 */
+  --dp-hover-icon-color: #f4f4f5;
+  --dp-primary-color: #16a34a; /* green-600 */
   --dp-primary-text-color: #ffffff;
-  --dp-secondary-color: #6b7280;
-  --dp-border-color: #4b5563;
-  --dp-menu-border-color: #4b5563;
-  --dp-border-color-hover: #6b7280;
-  --dp-disabled-color: #4b5563;
-  --dp-scroll-bar-background: #374151;
-  --dp-scroll-bar-color: #6b7280;
-  --dp-success-color: #10b981;
-  --dp-success-color-disabled: #065f46;
-  --dp-icon-color: #9ca3af;
+  --dp-secondary-color: #71717a; /* zinc-500 */
+  --dp-border-color: #3f3f46; /* zinc-700 */
+  --dp-menu-border-color: #3f3f46;
+  --dp-border-color-hover: #52525b; /* zinc-600 */
+  --dp-disabled-color: #3f3f46;
+  --dp-scroll-bar-background: #27272a;
+  --dp-scroll-bar-color: #52525b;
+  --dp-success-color: #16a34a; /* green-600 */
+  --dp-success-color-disabled: #166534; /* green-800 */
+  --dp-icon-color: #a1a1aa; /* zinc-400 */
   --dp-danger-color: #ef4444;
-  --dp-highlight-color: rgba(59, 130, 246, 0.1);
+  --dp-highlight-color: rgba(22, 163, 74, 0.12); /* green-600 at 12% */
 }
 </style>

@@ -1,24 +1,23 @@
 <template>
   <div ref="switcherRef" class="relative">
     <button
-      class="flex items-center space-x-2 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+      class="flex items-center space-x-1.5 px-2.5 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
       @click="toggleDropdown"
     >
       <component :is="currentIcon" class="w-4 h-4" />
-      <span class="text-sm font-medium">{{ currentLabel }}</span>
-      <ChevronDown class="w-4 h-4" />
+      <ChevronDown class="w-3 h-3 opacity-60" />
     </button>
 
     <div
       v-if="isOpen"
-      class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50"
+      class="absolute right-0 mt-2 w-36 bg-white dark:bg-zinc-900 rounded-xl shadow-lg border border-zinc-200 dark:border-zinc-700 z-50"
     >
       <div class="py-1">
         <button
           v-for="option in themeOptions"
           :key="option.value"
-          class="flex items-center space-x-3 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-          :class="{ 'bg-gray-100 dark:bg-gray-700': theme === option.value }"
+          class="flex items-center space-x-2.5 w-full px-3 py-2 text-sm text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+          :class="{ 'text-green-600 dark:text-green-500': theme === option.value }"
           @click="selectTheme(option.value)"
         >
           <component :is="option.icon" class="w-4 h-4" />

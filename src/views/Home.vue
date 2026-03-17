@@ -71,17 +71,17 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto space-y-8">
+  <div class="max-w-7xl mx-auto space-y-6">
     <div
       class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0"
     >
-      <div class="flex items-center space-x-3">
-        <LineChart class="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-          Rial Exchange Rates Archive
+      <div class="flex items-center space-x-2.5">
+        <LineChart class="w-5 h-5 text-green-600 dark:text-green-500" />
+        <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+          Rial Archive
         </h1>
       </div>
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-3">
         <ExportMenu
           v-if="!loading && !error"
           :data="exchangeRates"
@@ -95,56 +95,51 @@ onMounted(async () => {
 
     <div
       v-if="loading"
-      class="text-center py-8 text-gray-600 dark:text-gray-400"
+      class="text-center py-12 text-zinc-400 dark:text-zinc-500 text-sm"
     >
-      Loading exchange rates data...
+      Loading exchange rates…
     </div>
 
     <div
       v-else-if="error"
-      class="text-center py-8 text-red-600 dark:text-red-400"
+      class="text-center py-12 text-red-500 dark:text-red-400 text-sm"
     >
       {{ error }}
     </div>
 
-    <div v-else class="space-y-8">
+    <div v-else class="space-y-4">
       <div
-        class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-colors"
+        class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 transition-colors"
       >
-        <h2 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-          Select Date Range
-        </h2>
-        <DateRangeSelector
-          v-model:date-range="selectedDateRange"
-          :valid-date-range="validDataRange"
-          :selected-date-range="selectedDateRange"
-        />
-        <div class="mb-4" />
-        <h2 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-          Select Currencies
-        </h2>
-        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
-          <div class="flex-1">
-            <CurrencySelector
-              v-model:selected-currencies="selectedCurrencies"
-            />
+        <div class="space-y-4">
+          <DateRangeSelector
+            v-model:date-range="selectedDateRange"
+            :valid-date-range="validDataRange"
+            :selected-date-range="selectedDateRange"
+          />
+          <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div class="flex-1">
+              <CurrencySelector
+                v-model:selected-currencies="selectedCurrencies"
+              />
+            </div>
+            <label class="inline-flex items-center cursor-pointer">
+              <input v-model="roiEnabled" type="checkbox" class="sr-only peer" />
+              <div
+                class="relative w-11 h-6 bg-zinc-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-200 dark:peer-focus:ring-green-900 rounded-full peer dark:bg-zinc-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-zinc-600 peer-checked:bg-green-600"
+              ></div>
+              <span
+                class="ms-3 text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                >ROI Mode</span
+              >
+            </label>
           </div>
-          <label class="inline-flex items-center cursor-pointer">
-            <input v-model="roiEnabled" type="checkbox" class="sr-only peer" />
-            <div
-              class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-            ></div>
-            <span
-              class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >ROI Mode</span
-            >
-          </label>
         </div>
       </div>
 
       <div
         ref="chartElement"
-        class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-colors"
+        class="bg-white dark:bg-zinc-900 p-5 rounded-xl border border-zinc-200 dark:border-zinc-800 transition-colors"
       >
         <ExchangeRateChart
           :data="exchangeRates"
