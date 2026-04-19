@@ -42,9 +42,9 @@ src/
 Use path aliases for cleaner imports:
 
 ```typescript
-import {SomeComponent} from '@/components'
-import {someService} from '@/services'
-import type {SomeType} from '@/types'
+import { SomeComponent } from '@/components';
+import { someService } from '@/services';
+import type { SomeType } from '@/types';
 ```
 
 ## Pull Request Process

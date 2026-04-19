@@ -1,37 +1,55 @@
-export const CURRENCIES: {
-  [key: string]: { name: string; flag?: string; color: string };
-} = {
-  usd: { name: 'US Dollar', flag: '🇺🇸', color: '#1f77b4' },
-  eur: { name: 'Euro', flag: '🇪🇺', color: '#ff7f0e' },
-  gbp: { name: 'British Pound', flag: '🇬🇧', color: '#2ca02c' },
-  chf: { name: 'Swiss Franc', flag: '🇨🇭', color: '#d62728' },
-  cad: { name: 'Canadian Dollar', flag: '🇨🇦', color: '#9467bd' },
-  aud: { name: 'Australian Dollar', flag: '🇦🇺', color: '#8c564b' },
-  sek: { name: 'Swedish Krona', flag: '🇸🇪', color: '#e377c2' },
-  nok: { name: 'Norwegian Krone', flag: '🇳🇴', color: '#7f7f7f' },
-  rub: { name: 'Russian Ruble', flag: '🇷🇺', color: '#bcbd22' },
-  thb: { name: 'Thai Baht', flag: '🇹🇭', color: '#17becf' },
-  sgd: { name: 'Singapore Dollar', flag: '🇸🇬', color: '#aec7e8' },
-  hkd: { name: 'Hong Kong Dollar', flag: '🇭🇰', color: '#ffbb78' },
-  azn: { name: 'Azerbaijani Manat', flag: '🇦🇿', color: '#98df8a' },
-  amd: { name: '10 Armenian Dram', flag: '🇦🇲', color: '#ff9896' },
-  dkk: { name: 'Danish Krone', flag: '🇩🇰', color: '#c5b0d5' },
-  aed: { name: 'UAE Dirham', flag: '🇦🇪', color: '#c49c94' },
-  jpy: { name: '10 Japanese Yen', flag: '🇯🇵', color: '#f7b6d2' },
-  try: { name: 'Turkish Lira', flag: '🇹🇷', color: '#c7c7c7' },
-  cny: { name: 'Chinese Yuan', flag: '🇨🇳', color: '#dbdb8d' },
-  sar: { name: 'Saudi Riyal', flag: '🇸🇦', color: '#9edae5' },
-  inr: { name: 'Indian Rupee', flag: '🇮🇳', color: '#2b83ba' },
-  myr: { name: 'Malaysian Ringgit', flag: '🇲🇾', color: '#abdda4' },
-  afn: { name: 'Afghan Afghani', flag: '🇦🇫', color: '#fdae61' },
-  kwd: { name: 'Kuwaiti Dinar', flag: '🇰🇼', color: '#d7191c' },
-  iqd: { name: '100 Iraqi Dinar', flag: '🇮🇶', color: '#fdb462' },
-  bhd: { name: 'Bahraini Dinar', flag: '🇧🇭', color: '#b3de69' },
-  omr: { name: 'Omani Rial', flag: '🇴🇲', color: '#fccde5' },
-  qar: { name: 'Qatari Rial', flag: '🇶🇦', color: '#bc80bd' },
-  azadi1: { name: 'Azadi Coin', color: '#ccebc5' },
-  emami1: { name: 'Emami Coin', color: '#ffed6f' },
-  azadi1_2: { name: '½ Azadi Coin', color: '#8dd3c7' },
-  azadi1_4: { name: '¼ Azadi Coin', color: '#ffffb3' },
-  azadi1g: { name: 'Gerami Coin', color: '#bebada' },
+import type { Currency } from '@/types';
+
+// Currency metadata. `scale` = how many units of foreign currency the bonbast price represents.
+// E.g. JPY is quoted per 10 yen, AMD per 10 dram, IQD per 100 dinar.
+export const CURRENCIES: Currency[] = [
+  { code: 'usd', name: 'US Dollar', flag: '🇺🇸', scale: 1 },
+  { code: 'eur', name: 'Euro', flag: '🇪🇺', scale: 1 },
+  { code: 'gbp', name: 'British Pound', flag: '🇬🇧', scale: 1 },
+  { code: 'chf', name: 'Swiss Franc', flag: '🇨🇭', scale: 1 },
+  { code: 'cad', name: 'Canadian Dollar', flag: '🇨🇦', scale: 1 },
+  { code: 'aud', name: 'Australian Dollar', flag: '🇦🇺', scale: 1 },
+  { code: 'sek', name: 'Swedish Krona', flag: '🇸🇪', scale: 1 },
+  { code: 'nok', name: 'Norwegian Krone', flag: '🇳🇴', scale: 1 },
+  { code: 'rub', name: 'Russian Ruble', flag: '🇷🇺', scale: 1 },
+  { code: 'thb', name: 'Thai Baht', flag: '🇹🇭', scale: 1 },
+  { code: 'sgd', name: 'Singapore Dollar', flag: '🇸🇬', scale: 1 },
+  { code: 'hkd', name: 'Hong Kong Dollar', flag: '🇭🇰', scale: 1 },
+  { code: 'azn', name: 'Azerbaijani Manat', flag: '🇦🇿', scale: 1 },
+  { code: 'amd', name: 'Armenian Dram', flag: '🇦🇲', scale: 10 },
+  { code: 'dkk', name: 'Danish Krone', flag: '🇩🇰', scale: 1 },
+  { code: 'aed', name: 'UAE Dirham', flag: '🇦🇪', scale: 1 },
+  { code: 'jpy', name: 'Japanese Yen', flag: '🇯🇵', scale: 10 },
+  { code: 'try', name: 'Turkish Lira', flag: '🇹🇷', scale: 1 },
+  { code: 'cny', name: 'Chinese Yuan', flag: '🇨🇳', scale: 1 },
+  { code: 'sar', name: 'Saudi Riyal', flag: '🇸🇦', scale: 1 },
+  { code: 'inr', name: 'Indian Rupee', flag: '🇮🇳', scale: 1 },
+  { code: 'myr', name: 'Malaysian Ringgit', flag: '🇲🇾', scale: 1 },
+  { code: 'afn', name: 'Afghan Afghani', flag: '🇦🇫', scale: 1 },
+  { code: 'kwd', name: 'Kuwaiti Dinar', flag: '🇰🇼', scale: 1 },
+  { code: 'iqd', name: 'Iraqi Dinar', flag: '🇮🇶', scale: 100 },
+  { code: 'bhd', name: 'Bahraini Dinar', flag: '🇧🇭', scale: 1 },
+  { code: 'omr', name: 'Omani Rial', flag: '🇴🇲', scale: 1 },
+  { code: 'qar', name: 'Qatari Rial', flag: '🇶🇦', scale: 1 },
+];
+
+export const CURRENCY_BY_CODE: Record<string, Currency> = Object.fromEntries(
+  CURRENCIES.map((c) => [c.code, c]),
+);
+
+// Pseudo-currency used for "held in Toman" / base-unit rows.
+export const TOMAN: Currency = {
+  code: 'irr',
+  name: 'Toman',
+  flag: '🇮🇷',
+  scale: 1,
 };
+
+// Consistent color-per-currency (OKLCH, shared chroma/lightness, varying hue).
+export function colorFor(code: string, dark = true): string {
+  const idx = CURRENCIES.findIndex((c) => c.code === code);
+  const hue = (idx * 37) % 360;
+  const L = dark ? 0.78 : 0.55;
+  const C = 0.14;
+  return `oklch(${L} ${C} ${hue})`;
+}

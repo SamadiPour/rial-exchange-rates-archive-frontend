@@ -18,23 +18,27 @@ currencies. Built with Vue 3, TypeScript, and Chart.js, featuring data export ca
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+
 - npm, yarn, or pnpm
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/SamadiPour/rial-exchange-rates-archive-frontend.git
    cd rial-exchange-rates-archive-frontend
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start the development server**
+
    ```bash
    npm run dev
    ```

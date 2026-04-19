@@ -1,22 +1,105 @@
-import axios from 'axios';
-import { ExchangeRatesData } from '../types/exchange.ts';
-import { parseDate } from '../utils/utils.ts';
+import type { ExchangeData, PriceType } from '@/types';
+import { CURRENCIES, CURRENCY_BY_CODE } from '@/constants/currencies';
 
-const API_URL =
-  'https://raw.githubusercontent.com/SamadiPour/rial-exchange-rates-archive/refs/heads/data/gregorian_all.min.json';
+// jsDelivr mirrors of the data branch of the archive repo (CORS-friendly).
+const DATA_URL =
+  'https://cdn.jsdelivr.net/gh/SamadiPour/rial-exchange-rates-archive@data/gregorian_all.min.json';
+const DATA_URL_FULL =
+  'https://cdn.jsdelivr.net/gh/SamadiPour/rial-exchange-rates-archive@data/gregorian_all.json';
 
-export async function fetchExchangeRates(): Promise<ExchangeRatesData> {
-  const response = await axios.get<ExchangeRatesData>(API_URL);
-  return response.data;
+interface RawEntry {
+  buy?: number;
+  sell?: number;
+  b?: number;
+  s?: number;
+}
+type RawData = Record<string, Record<string, RawEntry>>;
+
+export async function loadExchangeData(): Promise<ExchangeData> {
+  let raw: RawData;
+  try {
+    const res = await fetch(DATA_URL);
+    if (!res.ok) throw new Error('min fetch failed');
+    raw = (await res.json()) as RawData;
+  } catch {
+    const res = await fetch(DATA_URL_FULL);
+    raw = (await res.json()) as RawData;
+  }
+
+  const keys = Object.keys(raw).sort();
+  const dates = keys.map((k) => k.replace(/\//g, '-'));
+
+  const series: ExchangeData['series'] = {};
+  for (const c of CURRENCIES) {
+    series[c.code] = {
+      buy: new Float64Array(keys.length),
+      sell: new Float64Array(keys.length),
+    };
+  }
+
+  for (let i = 0; i < keys.length; i++) {
+    const row = raw[keys[i]];
+    if (!row) continue;
+    for (const c of CURRENCIES) {
+      const entry = row[c.code];
+      if (!entry) {
+        if (i > 0) {
+          series[c.code].buy[i] = series[c.code].buy[i - 1];
+          series[c.code].sell[i] = series[c.code].sell[i - 1];
+        } else {
+          series[c.code].buy[i] = NaN;
+          series[c.code].sell[i] = NaN;
+        }
+        continue;
+      }
+      const buy = entry.buy ?? entry.b ?? NaN;
+      const sell = entry.sell ?? entry.s ?? NaN;
+      series[c.code].buy[i] =
+        buy > 0 ? buy : i > 0 ? series[c.code].buy[i - 1] : NaN;
+      series[c.code].sell[i] =
+        sell > 0 ? sell : i > 0 ? series[c.code].sell[i - 1] : NaN;
+    }
+  }
+
+  const index = new Map<string, number>();
+  dates.forEach((d, i) => index.set(d, i));
+
+  return { dates, index, series };
 }
 
-export function getDateRange(data: ExchangeRatesData): {
-  start: Date;
-  end: Date;
-} {
-  const dates = Object.keys(data).sort();
-  return {
-    start: parseDate(dates[0]),
-    end: parseDate(dates[dates.length - 1]),
-  };
+// Binary search: closest index at-or-before a given YYYY-MM-DD.
+export function findIndexAtOrBefore(dates: string[], iso: string): number {
+  let lo = 0;
+  let hi = dates.length - 1;
+  let ans = -1;
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    if (dates[mid] <= iso) {
+      ans = mid;
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
+  }
+  return ans;
+}
+
+// Value (in Toman) that 1 unit of `code` is worth at `idx`.
+// Normalizes by `scale` (e.g. JPY quoted per 10 yen).
+export function rateAt(
+  data: ExchangeData,
+  code: string,
+  idx: number,
+  priceType: PriceType = 'buy',
+): number {
+  const meta = CURRENCY_BY_CODE[code];
+  const s = data.series[code];
+  if (!s) return NaN;
+  const raw =
+    priceType === 'sell'
+      ? s.sell[idx]
+      : priceType === 'mid'
+        ? (s.sell[idx] + s.buy[idx]) / 2
+        : s.buy[idx];
+  return raw / (meta?.scale || 1);
 }
