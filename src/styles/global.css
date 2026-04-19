@@ -1,0 +1,248 @@
+:root {
+  --bg: #0d1117;
+  --bg-soft: #161b22;
+  --fg: #e8edf3;
+  --muted: rgba(232, 237, 243, 0.52);
+  --border: #2d333b;
+  --accent: oklch(0.82 0.14 75);
+  --up: oklch(0.78 0.14 150);
+  --down: oklch(0.72 0.18 28);
+  --display-font: 'Instrument Serif', 'Times New Roman', serif;
+  --ui-font: 'Inter Tight', system-ui, -apple-system, sans-serif;
+  --mono-font: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--ui-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent);
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.app {
+  max-width: 1340px;
+  margin: 0 auto;
+  padding: 20px clamp(12px, 3vw, 28px) 60px;
+}
+
+.mono-tiny {
+  font-family: var(--mono-font);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+section {
+  margin-top: 20px;
+}
+
+.panel {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.panel h3 {
+  margin: 0 0 12px;
+  font-family: var(--display-font);
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: -0.005em;
+}
+
+.panel label {
+  display: block;
+  font-family: var(--mono-font);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.btn-group {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.chip {
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-family: var(--mono-font);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-right: 1px solid var(--border);
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.chip:last-child {
+  border-right: none;
+}
+
+.chip.active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.chip:hover:not(.active):not(:disabled) {
+  background: var(--bg-soft);
+}
+
+.chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono-font);
+  font-size: 12.5px;
+}
+
+.data-table th {
+  text-align: left;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-soft);
+}
+
+.data-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+body[data-theme='light'] .data-table tr:hover td {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.mono {
+  font-family: var(--mono-font);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.up {
+  color: var(--up);
+}
+
+.down {
+  color: var(--down);
+}
+
+.align-right {
+  text-align: right;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+.loader-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--fg);
+  color: var(--bg);
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-family: var(--mono-font);
+  font-size: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+}
+
+@media (max-width: 720px) {
+  .panel {
+    padding: 14px;
+  }
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+  .data-table {
+    font-size: 12.5px !important;
+  }
+  .data-table th {
+    font-size: 10.5px !important;
+  }
+  .mono-tiny {
+    font-size: 10.5px !important;
+  }
+}

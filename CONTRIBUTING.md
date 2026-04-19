@@ -7,18 +7,13 @@ contribution process.
 
 ```
 src/
-├── assets/          # Static assets (images, styles)
 ├── components/      # Reusable Vue components
-│   ├── ui/         # Basic UI components
-│   └── features/   # Feature-specific components
 ├── composables/     # Vue composition functions
-├── constants/       # Application constants
-├── plugins/         # Vue plugins
-├── router/          # Vue Router configuration
-├── services/        # API and external services
-├── types/          # TypeScript type definitions
-├── utils/          # Utility functions
-└── views/          # Page-level components
+├── constants/       # Application constants and presets
+├── services/        # Data fetching services
+├── styles/          # Global CSS and design tokens
+├── types/           # TypeScript type definitions
+└── utils/           # Utility functions
 ```
 
 ## Code Standards
@@ -32,27 +27,17 @@ src/
 
 ### Naming Conventions
 
-- Components: PascalCase (e.g., `ExchangeRateChart.vue`)
+- Components: PascalCase (e.g., `LineChart.vue`)
 - Composables: camelCase starting with 'use' (e.g., `useTheme.ts`)
 - Files: kebab-case for regular files, PascalCase for components
 - Directories: kebab-case
-
-### Import Aliases
-
-Use path aliases for cleaner imports:
-
-```typescript
-import {SomeComponent} from '@/components'
-import {someService} from '@/services'
-import type {SomeType} from '@/types'
-```
 
 ## Pull Request Process
 
 1. Create a feature branch
 2. Make your changes following the code standards
-3. Run all checks: `npm run lint && npm run type-check`
-4. Run the formatting command: `npm run format`
+3. Run all checks: `bun run lint && bun run typecheck`
+4. Run the formatting command: `bun run format`
 5. Update documentation if needed
 6. Submit a pull request
 

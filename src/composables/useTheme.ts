@@ -1,38 +1,49 @@
-import { onMounted, ref, watch } from 'vue';
-import { usePreferredDark, useStorage } from '@vueuse/core';
+import { ref, watchEffect } from 'vue';
+import type { Theme } from '@/types';
+import { DEFAULT_THEME, THEMES } from '@/constants/presets';
+
+const STORAGE_KEY = 'theme';
+
+function loadTheme(): Theme {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored === 'light' || stored === 'dark') return stored;
+  } catch {
+    // localStorage may be unavailable (private mode, SSR, etc.)
+  }
+  return DEFAULT_THEME;
+}
+
+const theme = ref<Theme>(loadTheme());
+
+function applyTheme(t: Theme) {
+  const tokens = THEMES[t];
+  const r = document.documentElement;
+  for (const [k, v] of Object.entries(tokens)) {
+    const cssVar = '--' + k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
+    r.style.setProperty(cssVar, v);
+  }
+  document.body.dataset.theme = t;
+}
+
+let mounted = false;
 
 export function useTheme() {
-  const prefersDark = usePreferredDark();
-  const storedTheme = useStorage('theme', 'system');
-  const isDark = ref(false);
+  if (!mounted) {
+    mounted = true;
+    watchEffect(() => {
+      applyTheme(theme.value);
+      try {
+        localStorage.setItem(STORAGE_KEY, theme.value);
+      } catch {
+        // ignore
+      }
+    });
+  }
 
-  const setTheme = (theme: 'light' | 'dark' | 'system') => {
-    storedTheme.value = theme;
-    updateTheme();
-  };
+  function toggleTheme() {
+    theme.value = theme.value === 'dark' ? 'light' : 'dark';
+  }
 
-  const updateTheme = () => {
-    if (storedTheme.value === 'system') {
-      isDark.value = prefersDark.value;
-    } else {
-      isDark.value = storedTheme.value === 'dark';
-    }
-
-    if (isDark.value) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
-
-  watch(prefersDark, updateTheme);
-  watch(storedTheme, updateTheme);
-
-  onMounted(updateTheme);
-
-  return {
-    isDark,
-    theme: storedTheme,
-    setTheme,
-  };
+  return { theme, toggleTheme };
 }
