@@ -85,61 +85,67 @@ function setMode(m: Mode, currentScale: Scale) {
     </div>
 
     <div class="control-row">
-      <div class="control-label">Scale</div>
-      <div class="btn-group">
-        <button
-          v-for="s in ['linear', 'log'] as const"
-          :key="s"
-          class="chip"
-          :class="{ active: scale === s }"
-          :disabled="mode === 'roi' && s === 'log'"
-          @click="setScale(s, mode)"
-        >
-          {{ s }}
-        </button>
+      <div class="ctrl-group">
+        <div class="control-label">Scale</div>
+        <div class="btn-group">
+          <button
+            v-for="s in ['linear', 'log'] as const"
+            :key="s"
+            class="chip"
+            :class="{ active: scale === s }"
+            :disabled="mode === 'roi' && s === 'log'"
+            @click="setScale(s, mode)"
+          >
+            {{ s }}
+          </button>
+        </div>
       </div>
 
-      <div class="control-label">Mode</div>
-      <div class="btn-group">
-        <button
-          class="chip"
-          :class="{ active: mode === 'absolute' }"
-          @click="setMode('absolute', scale)"
-        >
-          Toman
-        </button>
-        <button
-          class="chip"
-          :class="{ active: mode === 'indexed' }"
-          @click="setMode('indexed', scale)"
-        >
-          Indexed
-        </button>
-        <button
-          class="chip"
-          :class="{ active: mode === 'roi' }"
-          @click="setMode('roi', scale)"
-        >
-          ROI %
-        </button>
+      <div class="ctrl-group">
+        <div class="control-label">Mode</div>
+        <div class="btn-group">
+          <button
+            class="chip"
+            :class="{ active: mode === 'absolute' }"
+            @click="setMode('absolute', scale)"
+          >
+            Toman
+          </button>
+          <button
+            class="chip"
+            :class="{ active: mode === 'indexed' }"
+            @click="setMode('indexed', scale)"
+          >
+            Indexed
+          </button>
+          <button
+            class="chip"
+            :class="{ active: mode === 'roi' }"
+            @click="setMode('roi', scale)"
+          >
+            ROI %
+          </button>
+        </div>
       </div>
 
-      <div class="control-label">Cal.</div>
-      <div class="btn-group">
-        <button
-          class="chip"
-          :class="{ active: calendar === 'gregorian' }"
-          @click="$emit('update:calendar', 'gregorian')"
-        >
-          Gregorian
-        </button>
-        <button
-          class="chip"
-          :class="{ active: calendar === 'jalali' }"
-          @click="$emit('update:calendar', 'jalali')"
-        >
-          Jalali
-        </button>
+      <div class="ctrl-group">
+        <div class="control-label">Cal.</div>
+        <div class="btn-group">
+          <button
+            class="chip"
+            :class="{ active: calendar === 'gregorian' }"
+            @click="$emit('update:calendar', 'gregorian')"
+          >
+            Gregorian
+          </button>
+          <button
+            class="chip"
+            :class="{ active: calendar === 'jalali' }"
+            @click="$emit('update:calendar', 'jalali')"
+          >
+            Jalali
+          </button>
+        </div>
       </div>
 
       <div class="btn-group">
@@ -199,6 +205,12 @@ function setMode(m: Mode, currentScale: Scale) {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+.ctrl-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .custom-range {

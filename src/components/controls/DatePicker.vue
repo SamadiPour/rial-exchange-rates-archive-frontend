@@ -636,4 +636,16 @@ function latest() {
   color: var(--accent);
   border-color: var(--accent);
 }
+
+@media (max-width: 720px) {
+  .dp-segments {
+    font-size: 13px;
+  }
+  .compact .dp-segments {
+    font-size: 11.5px;
+  }
+  .dp-seg {
+    font-size: inherit !important;
+  }
+}
 </style>

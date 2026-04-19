@@ -60,4 +60,10 @@ function onInput(e: Event) {
 .number-input:focus {
   border-color: var(--accent);
 }
+
+@media (max-width: 720px) {
+  .number-input {
+    font-size: 13px !important;
+  }
+}
 </style>

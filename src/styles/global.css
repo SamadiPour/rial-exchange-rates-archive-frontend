@@ -213,18 +213,8 @@ body[data-theme='light'] .data-table tr:hover td {
   }
   input,
   select,
-  textarea,
-  button {
+  textarea {
     font-size: 16px !important;
-  }
-  .chip,
-  .mono-tiny,
-  .data-table,
-  .data-table th {
-    font-size: inherit;
-  }
-  .chip {
-    font-size: 11.5px !important;
   }
   .data-table {
     font-size: 12.5px !important;
