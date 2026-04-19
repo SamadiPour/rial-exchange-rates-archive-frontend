@@ -18,6 +18,7 @@ const props = defineProps<{
   max: string;
   calendar?: Calendar;
   fill?: boolean;
+  compact?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -296,7 +297,7 @@ function latest() {
 </script>
 
 <template>
-  <div ref="wrap" class="dp-wrap" :class="{ fill }">
+  <div ref="wrap" class="dp-wrap" :class="{ fill, compact }">
     <div class="dp-segments">
       <input
         ref="yInput"
@@ -433,8 +434,12 @@ function latest() {
   background: transparent;
   padding: 0 4px;
   font-family: var(--mono-font);
-  font-size: 11.5px;
+  font-size: 13px;
   transition: border-color 0.15s;
+}
+
+.compact .dp-segments {
+  font-size: 11.5px;
 }
 
 .dp-segments:focus-within {
@@ -448,17 +453,30 @@ function latest() {
   color: var(--fg);
   font-family: inherit;
   font-size: inherit;
-  padding: 5px 2px;
+  padding: 8px 2px;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
+.compact .dp-seg {
+  padding: 5px 2px;
+}
+
 .seg-y {
-  width: 40px;
+  width: 46px;
 }
 
 .seg-m,
 .seg-d {
+  width: 28px;
+}
+
+.compact .seg-y {
+  width: 40px;
+}
+
+.compact .seg-m,
+.compact .seg-d {
   width: 24px;
 }
 
@@ -472,13 +490,17 @@ function latest() {
   background: transparent;
   border: none;
   color: var(--muted);
-  padding: 4px 6px;
+  padding: 6px 8px;
   cursor: pointer;
   border-left: 1px solid var(--border);
   margin-left: 4px;
   display: inline-flex;
   align-items: center;
   transition: color 0.15s;
+}
+
+.compact .dp-icon-btn {
+  padding: 4px 6px;
 }
 
 .dp-icon-btn:hover {

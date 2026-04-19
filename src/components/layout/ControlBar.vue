@@ -69,6 +69,7 @@ function setMode(m: Mode, currentScale: Scale) {
           :min="data.dates[0]"
           :max="data.dates[data.dates.length - 1]"
           :calendar="calendar"
+          compact
           @update:model-value="$emit('update:customStart', $event)"
         />
         <span class="muted">→</span>
@@ -77,6 +78,7 @@ function setMode(m: Mode, currentScale: Scale) {
           :min="data.dates[0]"
           :max="data.dates[data.dates.length - 1]"
           :calendar="calendar"
+          compact
           @update:model-value="$emit('update:customEnd', $event)"
         />
       </div>
