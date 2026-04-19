@@ -239,8 +239,8 @@ function run(it: Item) {
 }
 
 .caret {
-  font-size: 10px;
-  opacity: 0.7;
+  font-size: 16px;
+  opacity: 0.6;
 }
 
 .export-menu {

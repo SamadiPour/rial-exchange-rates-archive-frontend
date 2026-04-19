@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import type { Calendar, ExchangeData, PriceType } from '@/types';
 import { CURRENCIES, TOMAN } from '@/constants/currencies';
 import { findIndexAtOrBefore, rateAt } from '@/services/exchange-rates';
-import { fmtDate } from '@/utils/date';
 import { fmtNumberPretty } from '@/utils/format';
 import CurrencySelect from '@/components/controls/CurrencySelect.vue';
 import DatePicker from '@/components/controls/DatePicker.vue';
@@ -36,6 +35,14 @@ const result = computed(() => {
 });
 
 const options = computed(() => [TOMAN, ...CURRENCIES]);
+
+watch(from, (val, oldVal) => {
+  if (val === to.value) to.value = oldVal;
+});
+
+watch(to, (val, oldVal) => {
+  if (val === from.value) from.value = oldVal;
+});
 </script>
 
 <template>
@@ -68,7 +75,6 @@ const options = computed(() => [TOMAN, ...CURRENCIES]);
         :max="data.dates[data.dates.length - 1]"
         :calendar="calendar"
       />
-      <span class="conv-using">using {{ fmtDate(actualDate, calendar) }}</span>
     </div>
   </div>
 </template>
@@ -83,7 +89,8 @@ const options = computed(() => [TOMAN, ...CURRENCIES]);
 
 .conv-arrow {
   font-size: 22px;
-  padding-bottom: 10px;
+  padding-bottom: 26px;
+  opacity: 0.6;
   color: var(--muted);
 }
 

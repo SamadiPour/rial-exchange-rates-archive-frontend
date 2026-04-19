@@ -137,6 +137,10 @@ const rows = computed<Row[]>(() => {
   border-color: rgba(242, 239, 232, 0.22);
 }
 
+body[data-theme='light'] .stat-card:hover {
+  border-color: rgba(26, 24, 21, 0.3);
+}
+
 .stat-label {
   font-size: 12px;
   color: var(--muted);

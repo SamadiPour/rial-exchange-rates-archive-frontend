@@ -134,7 +134,7 @@ function pick(code: string) {
 
 .caret {
   opacity: 0.6;
-  font-size: 10px;
+  font-size: 14px;
   flex-shrink: 0;
 }
 

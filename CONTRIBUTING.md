@@ -32,7 +32,6 @@ src/
 - Files: kebab-case for regular files, PascalCase for components
 - Directories: kebab-case
 
-
 ## Pull Request Process
 
 1. Create a feature branch

@@ -433,7 +433,7 @@ function latest() {
   background: transparent;
   padding: 0 4px;
   font-family: var(--mono-font);
-  font-size: 13px;
+  font-size: 11.5px;
   transition: border-color 0.15s;
 }
 
@@ -448,18 +448,18 @@ function latest() {
   color: var(--fg);
   font-family: inherit;
   font-size: inherit;
-  padding: 8px 2px;
+  padding: 5px 2px;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
 
 .seg-y {
-  width: 46px;
+  width: 40px;
 }
 
 .seg-m,
 .seg-d {
-  width: 28px;
+  width: 24px;
 }
 
 .dp-sep {
@@ -472,7 +472,7 @@ function latest() {
   background: transparent;
   border: none;
   color: var(--muted);
-  padding: 6px 8px;
+  padding: 4px 6px;
   cursor: pointer;
   border-left: 1px solid var(--border);
   margin-left: 4px;
