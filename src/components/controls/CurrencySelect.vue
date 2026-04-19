@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch } from 'vue';
 import type { Currency } from '@/types';
-import { useOnClickOutside } from '@/composables/useResizeObserver';
+import { useOnClickOutside } from '@/composables/useOnClickOutside';
 
 const props = defineProps<{
   modelValue: string;

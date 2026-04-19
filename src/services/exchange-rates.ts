@@ -84,6 +84,21 @@ export function findIndexAtOrBefore(dates: string[], iso: string): number {
   return ans;
 }
 
+// Returns a picker (idx) => Toman-value-of-1-unit for the given code+priceType.
+// Hoists map lookups + scale division out of tight loops.
+export function priceOf(
+  data: ExchangeData,
+  code: string,
+  priceType: PriceType = 'buy',
+): (idx: number) => number {
+  const s = data.series[code];
+  if (!s) return () => NaN;
+  const scale = CURRENCY_BY_CODE[code]?.scale || 1;
+  if (priceType === 'sell') return (i) => s.sell[i] / scale;
+  if (priceType === 'mid') return (i) => (s.sell[i] + s.buy[i]) / 2 / scale;
+  return (i) => s.buy[i] / scale;
+}
+
 // Value (in Toman) that 1 unit of `code` is worth at `idx`.
 // Normalizes by `scale` (e.g. JPY quoted per 10 yen).
 export function rateAt(
@@ -92,14 +107,5 @@ export function rateAt(
   idx: number,
   priceType: PriceType = 'buy',
 ): number {
-  const meta = CURRENCY_BY_CODE[code];
-  const s = data.series[code];
-  if (!s) return NaN;
-  const raw =
-    priceType === 'sell'
-      ? s.sell[idx]
-      : priceType === 'mid'
-        ? (s.sell[idx] + s.buy[idx]) / 2
-        : s.buy[idx];
-  return raw / (meta?.scale || 1);
+  return priceOf(data, code, priceType)(idx);
 }

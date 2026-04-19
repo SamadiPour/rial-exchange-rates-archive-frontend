@@ -19,17 +19,10 @@ const theme = ref<Theme>(loadTheme());
 function applyTheme(t: Theme) {
   const tokens = THEMES[t];
   const r = document.documentElement;
-  r.style.setProperty('--bg', tokens.bg);
-  r.style.setProperty('--bg-soft', tokens.bgSoft);
-  r.style.setProperty('--fg', tokens.fg);
-  r.style.setProperty('--muted', tokens.muted);
-  r.style.setProperty('--border', tokens.border);
-  r.style.setProperty('--accent', tokens.accent);
-  r.style.setProperty('--up', tokens.up);
-  r.style.setProperty('--down', tokens.down);
-  r.style.setProperty('--display-font', tokens.displayFont);
-  r.style.setProperty('--ui-font', tokens.uiFont);
-  r.style.setProperty('--mono-font', tokens.monoFont);
+  for (const [k, v] of Object.entries(tokens)) {
+    const cssVar = '--' + k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase());
+    r.style.setProperty(cssVar, v);
+  }
   document.body.dataset.theme = t;
 }
 

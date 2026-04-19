@@ -10,10 +10,10 @@ import type {
 } from '@/types';
 import { CURRENCY_BY_CODE, colorFor } from '@/constants/currencies';
 import { ANNOTATIONS } from '@/constants/annotations';
-import { findIndexAtOrBefore } from '@/services/exchange-rates';
+import { findIndexAtOrBefore, priceOf } from '@/services/exchange-rates';
 import { isoToJalali } from '@/utils/date';
 import { fmtToman } from '@/utils/format';
-import { useElementWidth } from '@/composables/useResizeObserver';
+import { useElementWidth } from '@/composables/useElementWidth';
 
 const props = defineProps<{
   data: ExchangeData;
@@ -69,18 +69,11 @@ interface Series {
 const slice = computed<Series[]>(() => {
   const out: Series[] = [];
   for (const code of props.codes) {
-    const s = props.data.series[code];
-    if (!s) continue;
-    const meta = CURRENCY_BY_CODE[code];
+    if (!props.data.series[code]) continue;
+    const pick = priceOf(props.data, code, props.priceType);
     const vals = new Array<number>(i1.value - i0.value + 1);
     for (let i = i0.value; i <= i1.value; i++) {
-      const raw =
-        props.priceType === 'sell'
-          ? s.sell[i]
-          : props.priceType === 'mid'
-            ? (s.sell[i] + s.buy[i]) / 2
-            : s.buy[i];
-      vals[i - i0.value] = raw / (meta?.scale || 1);
+      vals[i - i0.value] = pick(i);
     }
     out.push({ code, vals });
   }
@@ -214,13 +207,23 @@ function xTickAnchor(i: number): 'start' | 'middle' | 'end' {
   return 'middle';
 }
 
-const visibleAnnos = computed(() =>
-  props.showAnnotations
-    ? ANNOTATIONS.filter(
-        (a) => a.date >= props.rangeStart && a.date <= props.rangeEnd,
-      )
-    : [],
-);
+interface VisibleAnno {
+  label: string;
+  color: string;
+  x: number;
+}
+
+const visibleAnnos = computed<VisibleAnno[]>(() => {
+  if (!props.showAnnotations) return [];
+  const out: VisibleAnno[] = [];
+  for (const a of ANNOTATIONS) {
+    if (a.date < props.rangeStart || a.date > props.rangeEnd) continue;
+    const idx = findIndexAtOrBefore(props.data.dates, a.date) - i0.value;
+    if (idx < 0 || idx >= n.value) continue;
+    out.push({ label: a.label, color: a.color, x: xMap(idx) });
+  }
+  return out;
+});
 
 function fmtY(v: number): string {
   if (props.mode === 'roi') return (v >= 0 ? '+' : '') + v.toFixed(0) + '%';
@@ -294,12 +297,8 @@ function hoverValText(code: string): string {
       :width="w"
       :height="height"
       :viewBox="`0 0 ${w} ${height}`"
-      :style="{
-        display: 'block',
-        background: colors.bg,
-        borderRadius: '8px',
-        fontFamily: `'Inter Tight', system-ui, sans-serif`,
-      }"
+      class="chart-svg"
+      :style="{ background: colors.bg }"
       @mousemove="onMove"
       @mouseleave="onLeave"
     >
@@ -349,31 +348,24 @@ function hoverValText(code: string): string {
 
       <!-- Annotations -->
       <g v-for="(a, i) in visibleAnnos" :key="'an' + i" opacity="0.75">
-        <template
-          v-if="
-            findIndexAtOrBefore(data.dates, a.date) - i0 >= 0 &&
-            findIndexAtOrBefore(data.dates, a.date) - i0 < n
-          "
+        <line
+          :x1="a.x"
+          :x2="a.x"
+          :y1="padT"
+          :y2="padT + innerH"
+          :stroke="a.color"
+          stroke-dasharray="3 3"
+          stroke-width="1"
+        />
+        <text
+          :x="a.x + 4"
+          :y="padT + 10"
+          :fill="a.color"
+          font-size="10"
+          font-family="'JetBrains Mono', monospace"
         >
-          <line
-            :x1="xMap(findIndexAtOrBefore(data.dates, a.date) - i0)"
-            :x2="xMap(findIndexAtOrBefore(data.dates, a.date) - i0)"
-            :y1="padT"
-            :y2="padT + innerH"
-            :stroke="a.color"
-            stroke-dasharray="3 3"
-            stroke-width="1"
-          />
-          <text
-            :x="xMap(findIndexAtOrBefore(data.dates, a.date) - i0) + 4"
-            :y="padT + 10"
-            :fill="a.color"
-            font-size="10"
-            font-family="'JetBrains Mono', monospace"
-          >
-            {{ a.label }}
-          </text>
-        </template>
+          {{ a.label }}
+        </text>
       </g>
 
       <!-- Series lines -->
@@ -459,6 +451,12 @@ function hoverValText(code: string): string {
 .chart-wrap {
   width: 100%;
   position: relative;
+}
+
+.chart-svg {
+  display: block;
+  border-radius: 8px;
+  font-family: var(--ui-font);
 }
 
 .tooltip {

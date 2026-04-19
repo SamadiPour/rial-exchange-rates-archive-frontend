@@ -10,7 +10,7 @@ import {
   jalaliDaysInMonth,
   jalaliToGregorian,
 } from '@/utils/date';
-import { useOnClickOutside } from '@/composables/useResizeObserver';
+import { useOnClickOutside } from '@/composables/useOnClickOutside';
 
 const props = defineProps<{
   modelValue: string;

@@ -8,6 +8,7 @@ import { fmtDate, shiftDate } from '@/utils/date';
 import { useTheme } from '@/composables/useTheme';
 import { useUrlState } from '@/composables/useUrlState';
 import { useToast } from '@/composables/useToast';
+import { useMediaQuery } from '@/composables/useMediaQuery';
 import TopBar from '@/components/layout/TopBar.vue';
 import ControlBar from '@/components/layout/ControlBar.vue';
 import LoadingScreen from '@/components/layout/LoadingScreen.vue';
@@ -19,14 +20,22 @@ import Converter from '@/components/panels/Converter.vue';
 import ROI from '@/components/panels/ROI.vue';
 import Leaderboard from '@/components/panels/Leaderboard.vue';
 
+type TabId = 'convert' | 'roi' | 'leaderboard';
+
+const TABS: { id: TabId; label: string }[] = [
+  { id: 'convert', label: 'Converter' },
+  { id: 'roi', label: 'ROI simulator' },
+  { id: 'leaderboard', label: 'Biggest moves' },
+];
+
 const { theme, toggleTheme } = useTheme();
 const { state, toggleCode } = useUrlState();
 const { toast, show } = useToast();
+const isMobile = useMediaQuery('(max-width: 720px)');
 
 const data = ref<ExchangeData | null>(null);
 const err = ref<string | null>(null);
-
-const activeTab = ref<'convert' | 'roi' | 'leaderboard'>('convert');
+const activeTab = ref<TabId>('convert');
 
 onMounted(async () => {
   try {
@@ -51,26 +60,21 @@ const range = computed(() => {
   return { rangeStart: shiftDate(last, -(p?.days || 365)), rangeEnd: last };
 });
 
-const lastUsd = computed(() => {
-  if (!data.value) return NaN;
-  return rateAt(
-    data.value,
-    'usd',
-    data.value.dates.length - 1,
-    state.priceType,
-  );
-});
+const lastDate = computed(() =>
+  data.value ? data.value.dates[data.value.dates.length - 1] : '',
+);
 
-const lastDate = computed(() => {
-  if (!data.value) return '';
-  return data.value.dates[data.value.dates.length - 1];
-});
+const lastUsd = computed(() =>
+  data.value
+    ? rateAt(data.value, 'usd', data.value.dates.length - 1, state.priceType)
+    : NaN,
+);
 
 const effectiveCodes = computed(() =>
   state.codes.length ? state.codes : ['usd'],
 );
 
-const chartHeight = ref(window.innerWidth < 720 ? 320 : 460);
+const chartHeight = computed(() => (isMobile.value ? 320 : 460));
 
 function handleShare() {
   navigator.clipboard
@@ -78,13 +82,6 @@ function handleShare() {
     .then(() => show('Link copied to clipboard'))
     .catch(() => show('Could not copy link'));
 }
-
-window.addEventListener('resize', () => {
-  chartHeight.value = window.innerWidth < 720 ? 320 : 460;
-});
-
-// Make findIndexAtOrBefore callable from template (for chart annotations guard).
-// (Exported for template via `defineExpose`-less setup - just reference directly.)
 </script>
 
 <template>
@@ -170,11 +167,7 @@ window.addEventListener('resize', () => {
     <section class="tools-section">
       <div class="tabs">
         <button
-          v-for="t in [
-            { id: 'convert', label: 'Converter' },
-            { id: 'roi', label: 'ROI simulator' },
-            { id: 'leaderboard', label: 'Biggest moves' },
-          ] as const"
+          v-for="t in TABS"
           :key="t.id"
           class="tab"
           :class="{ active: activeTab === t.id }"

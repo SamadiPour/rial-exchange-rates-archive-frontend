@@ -220,10 +220,6 @@ function setMode(m: Mode, currentScale: Scale) {
   flex-wrap: wrap;
 }
 
-.muted {
-  color: var(--muted);
-}
-
 .currency-chips {
   display: flex;
   gap: 6px;

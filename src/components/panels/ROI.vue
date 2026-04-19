@@ -143,22 +143,6 @@ const rows = computed<RoiRow[]>(() => {
   border-radius: 6px;
 }
 
-.align-right {
-  text-align: right;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.up {
-  color: var(--up);
-}
-
-.down {
-  color: var(--down);
-}
-
 .hold-row {
   border-top: 1px solid var(--border);
   background: var(--bg-soft);

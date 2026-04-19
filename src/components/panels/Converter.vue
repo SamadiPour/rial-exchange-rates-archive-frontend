@@ -20,7 +20,6 @@ const to = ref('usd');
 const iso = ref(props.data.dates[props.data.dates.length - 1]);
 
 const idx = computed(() => findIndexAtOrBefore(props.data.dates, iso.value));
-const actualDate = computed(() => props.data.dates[idx.value]);
 
 const result = computed(() => {
   const fromToman =
@@ -122,12 +121,6 @@ watch(to, (val, oldVal) => {
 
 .conv-date-label {
   margin: 0 !important;
-}
-
-.conv-using {
-  font-size: 11px;
-  color: var(--muted);
-  font-family: var(--mono-font);
 }
 
 @media (max-width: 520px) {

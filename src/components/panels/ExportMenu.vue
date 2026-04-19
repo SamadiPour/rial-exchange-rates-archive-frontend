@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { Calendar, ExchangeData, PriceType } from '@/types';
-import { CURRENCY_BY_CODE } from '@/constants/currencies';
-import { findIndexAtOrBefore } from '@/services/exchange-rates';
+import { findIndexAtOrBefore, priceOf } from '@/services/exchange-rates';
 import { isoToJalali } from '@/utils/date';
-import { useOnClickOutside } from '@/composables/useResizeObserver';
+import { useOnClickOutside } from '@/composables/useOnClickOutside';
 
 const props = defineProps<{
   data: ExchangeData;
@@ -44,19 +43,15 @@ function buildRows(): Row[] {
   const header: string[] = ['date', ...props.codes.map((c) => c.toUpperCase())];
   if (props.calendar === 'jalali') header.splice(1, 0, 'jalali');
   rows.push(header);
+  const pickers = props.codes.map((c) =>
+    priceOf(props.data, c, props.priceType),
+  );
   for (let i = i0; i <= i1; i++) {
     const d = props.data.dates[i];
     const row: Row = [d];
     if (props.calendar === 'jalali') row.push(isoToJalali(d));
-    for (const code of props.codes) {
-      const meta = CURRENCY_BY_CODE[code];
-      const s = props.data.series[code];
-      const v =
-        (props.priceType === 'sell'
-          ? s.sell[i]
-          : props.priceType === 'mid'
-            ? (s.sell[i] + s.buy[i]) / 2
-            : s.buy[i]) / (meta?.scale || 1);
+    for (const pick of pickers) {
+      const v = pick(i);
       row.push(isFinite(v) ? Math.round(v) : '');
     }
     rows.push(row);

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { ExchangeData, PriceType } from '@/types';
+import type { Currency, ExchangeData, PriceType } from '@/types';
 import { CURRENCY_BY_CODE } from '@/constants/currencies';
-import { findIndexAtOrBefore } from '@/services/exchange-rates';
+import { findIndexAtOrBefore, priceOf } from '@/services/exchange-rates';
 import { fmtPct, fmtToman } from '@/utils/format';
 
 const props = defineProps<{
@@ -15,7 +15,7 @@ const props = defineProps<{
 
 interface Row {
   code: string;
-  meta: ReturnType<(typeof CURRENCY_BY_CODE)[string]>;
+  meta: Currency | undefined;
   v0: number;
   v1: number;
   change: number;
@@ -29,15 +29,8 @@ const rows = computed<Row[]>(() => {
   const years = Math.max(0.01, (i1 - i0) / 365.25);
   const out: Row[] = [];
   for (const code of props.codes) {
-    const s = props.data.series[code];
-    if (!s) continue;
-    const meta = CURRENCY_BY_CODE[code];
-    const pick = (i: number) =>
-      (props.priceType === 'sell'
-        ? s.sell[i]
-        : props.priceType === 'mid'
-          ? (s.sell[i] + s.buy[i]) / 2
-          : s.buy[i]) / (meta?.scale || 1);
+    if (!props.data.series[code]) continue;
+    const pick = priceOf(props.data, code, props.priceType);
     const v0 = pick(i0);
     const v1 = pick(i1);
     const change = ((v1 - v0) / v0) * 100;
@@ -50,7 +43,15 @@ const rows = computed<Row[]>(() => {
       const d = (peak - v) / peak;
       if (d > dd) dd = d;
     }
-    out.push({ code, meta, v0, v1, change, cagr, dd: dd * 100 });
+    out.push({
+      code,
+      meta: CURRENCY_BY_CODE[code],
+      v0,
+      v1,
+      change,
+      cagr,
+      dd: dd * 100,
+    });
   }
   return out;
 });
@@ -166,13 +167,5 @@ body[data-theme='light'] .stat-card:hover {
   margin-top: 8px;
   font-size: 12px;
   font-family: var(--mono-font);
-}
-
-.up {
-  color: var(--up);
-}
-
-.down {
-  color: var(--down);
 }
 </style>

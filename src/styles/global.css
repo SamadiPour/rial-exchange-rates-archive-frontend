@@ -172,6 +172,26 @@ body[data-theme='light'] .data-table tr:hover td {
   font-variant-numeric: tabular-nums;
 }
 
+.mono {
+  font-family: var(--mono-font);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.up {
+  color: var(--up);
+}
+
+.down {
+  color: var(--down);
+}
+
+.align-right {
+  text-align: right;
+}
+
 @keyframes pulse {
   0%,
   100% {

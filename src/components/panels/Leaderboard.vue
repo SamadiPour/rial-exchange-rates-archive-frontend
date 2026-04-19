@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import type { ExchangeData, PriceType } from '@/types';
-import { CURRENCIES, CURRENCY_BY_CODE } from '@/constants/currencies';
-import { findIndexAtOrBefore } from '@/services/exchange-rates';
+import { CURRENCIES } from '@/constants/currencies';
+import { findIndexAtOrBefore, priceOf } from '@/services/exchange-rates';
 import { fmtPct, fmtToman } from '@/utils/format';
 import CurrencySelect from '@/components/controls/CurrencySelect.vue';
 
@@ -25,15 +25,8 @@ interface Move {
 const moves = computed<Move[]>(() => {
   const i0 = findIndexAtOrBefore(props.data.dates, props.rangeStart);
   const i1 = findIndexAtOrBefore(props.data.dates, props.rangeEnd);
-  const s = props.data.series[code.value];
-  if (!s) return [];
-  const meta = CURRENCY_BY_CODE[code.value];
-  const pick = (i: number) =>
-    (props.priceType === 'sell'
-      ? s.sell[i]
-      : props.priceType === 'mid'
-        ? (s.sell[i] + s.buy[i]) / 2
-        : s.buy[i]) / (meta?.scale || 1);
+  if (!props.data.series[code.value]) return [];
+  const pick = priceOf(props.data, code.value, props.priceType);
   const arr: Move[] = [];
   for (let i = i0 + 1; i <= i1; i++) {
     const prev = pick(i - 1);
@@ -105,25 +98,5 @@ const moves = computed<Move[]>(() => {
   overflow: auto;
   border: 1px solid var(--border);
   border-radius: 6px;
-}
-
-.align-right {
-  text-align: right;
-}
-
-.mono {
-  font-family: var(--mono-font);
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.up {
-  color: var(--up);
-}
-
-.down {
-  color: var(--down);
 }
 </style>
