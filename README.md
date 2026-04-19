@@ -1,26 +1,24 @@
 # Rial Exchange Rates Archive
 
 A modern, interactive web application for visualizing Iranian Rial exchange rates against various international
-currencies. Built with Vue 3, TypeScript, and Chart.js, featuring data export capabilities.
+currencies. Built with Vue 3 and TypeScript, featuring data export capabilities.
 
-![Website Screenshot](https://github.com/user-attachments/assets/85d56763-2e8f-4ab4-a68e-40096dbbba0c)
+![Website Screenshot]()
 
 ## ✨ Features
 
 ### 📊 Data Visualization
 
-- **ROI Mode**: Calculate and display return on investment percentages
 - **Multi-Currency Support**: Compare multiple currencies simultaneously
+- **ROI Mode**: Calculate and display return on investment percentages
+- **Data & Chart Export**: Ability to export data and charts in various formats
 - **Dark/Light Theme**: Toggle between themes with system preference detection
-- **Data Export**: Export exchange rate data as CSV, JSON or XML files
-- **Chart Export**: Save charts as PNG, SVG, or PDF
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- npm, yarn, or pnpm
+- [Bun](https://bun.sh) 1.0+
 
 ### Installation
 
@@ -34,13 +32,13 @@ currencies. Built with Vue 3, TypeScript, and Chart.js, featuring data export ca
 2. **Install dependencies**
 
    ```bash
-   npm install
+   bun install
    ```
 
 3. **Start the development server**
 
    ```bash
-   npm run dev
+   bun run dev
    ```
 
 4. **Open your browser**
@@ -49,7 +47,7 @@ currencies. Built with Vue 3, TypeScript, and Chart.js, featuring data export ca
 ### Building for Production
 
 ```bash
-npm run build
+bun run build
 ```
 
 The build artifacts will be stored in the `dist/` directory.
@@ -59,10 +57,9 @@ The build artifacts will be stored in the `dist/` directory.
 - **Framework**: Vue 3 with Composition API
 - **Language**: TypeScript
 - **Build Tool**: Vite
-- **Styling**: Tailwind CSS
-- **Charts**: Chart.js with vue-chartjs
+- **Styling**: Custom CSS with CSS variables
+- **Charts**: Canvas-based custom chart implementation
 - **Linting**: ESLint + Prettier
-- **Router**: Vue Router 4
 
 ## 🔗 Data Source
 
