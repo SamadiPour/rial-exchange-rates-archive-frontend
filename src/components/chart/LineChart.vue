@@ -36,12 +36,12 @@ const height = computed(() => props.height ?? 460);
 const isDark = computed(() => props.theme === 'dark');
 
 const colors = computed(() => ({
-  bg: isDark.value ? '#0b0b0d' : '#fafaf7',
-  grid: isDark.value ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)',
-  axis: isDark.value ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.55)',
-  label: isDark.value ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.75)',
-  crosshair: isDark.value ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.35)',
-  tooltipBg: isDark.value ? 'rgba(18,18,22,0.96)' : 'rgba(255,255,255,0.98)',
+  bg: isDark.value ? '#0d1117' : '#fafaf7',
+  grid: isDark.value ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)',
+  axis: isDark.value ? 'rgba(232,237,243,0.45)' : 'rgba(0,0,0,0.55)',
+  label: isDark.value ? 'rgba(232,237,243,0.7)' : 'rgba(0,0,0,0.75)',
+  crosshair: isDark.value ? 'rgba(232,237,243,0.25)' : 'rgba(0,0,0,0.35)',
+  tooltipBg: isDark.value ? 'rgba(22,27,34,0.97)' : 'rgba(255,255,255,0.98)',
   tooltipBorder: isDark.value ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)',
   tooltipText: isDark.value ? '#eee' : '#111',
 }));
