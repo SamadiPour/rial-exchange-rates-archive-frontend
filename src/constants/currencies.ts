@@ -33,8 +33,20 @@ export const CURRENCIES: Currency[] = [
   { code: 'qar', name: 'Qatari Rial', flag: '🇶🇦', scale: 1 },
 ];
 
+// Iranian gold coins — priced in Toman directly (scale = 1).
+export const COINS: Currency[] = [
+  { code: 'azadi1', name: 'Azadi', flag: '', scale: 1 },
+  { code: 'emami1', name: 'Emami', flag: '', scale: 1 },
+  { code: 'azadi1_2', name: '½ Azadi', flag: '', scale: 1 },
+  { code: 'azadi1_4', name: '¼ Azadi', flag: '', scale: 1 },
+  { code: 'azadi1g', name: 'Gerami', flag: '', scale: 1 },
+];
+
+// Combined list used for data-loading and lookups.
+export const ALL_CURRENCIES: Currency[] = [...CURRENCIES, ...COINS];
+
 export const CURRENCY_BY_CODE: Record<string, Currency> = Object.fromEntries(
-  CURRENCIES.map((c) => [c.code, c]),
+  ALL_CURRENCIES.map((c) => [c.code, c]),
 );
 
 // Pseudo-currency used for "held in Toman" / base-unit rows.
@@ -47,7 +59,7 @@ export const TOMAN: Currency = {
 
 // Consistent color-per-currency (OKLCH, shared chroma/lightness, varying hue).
 export function colorFor(code: string, dark = true): string {
-  const idx = CURRENCIES.findIndex((c) => c.code === code);
+  const idx = ALL_CURRENCIES.findIndex((c) => c.code === code);
   const hue = (idx * 37) % 360;
   const L = dark ? 0.78 : 0.55;
   const C = 0.14;

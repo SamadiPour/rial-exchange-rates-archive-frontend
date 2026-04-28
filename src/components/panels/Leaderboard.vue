@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import type { ExchangeData, PriceType } from '@/types';
-import { CURRENCIES } from '@/constants/currencies';
+import { ALL_CURRENCIES } from '@/constants/currencies';
 import { findIndexAtOrBefore, priceOf } from '@/services/exchange-rates';
 import { fmtPct, fmtToman } from '@/utils/format';
 import CurrencySelect from '@/components/controls/CurrencySelect.vue';
@@ -45,7 +45,7 @@ const moves = computed<Move[]>(() => {
     <div class="lb-head">
       <h3>Biggest single-day moves</h3>
       <div class="lb-select">
-        <CurrencySelect v-model="code" :options="CURRENCIES" />
+        <CurrencySelect v-model="code" :options="ALL_CURRENCIES" />
       </div>
     </div>
     <div class="lb-table-wrap">

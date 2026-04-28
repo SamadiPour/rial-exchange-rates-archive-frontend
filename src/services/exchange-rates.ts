@@ -1,5 +1,5 @@
 import type { ExchangeData, PriceType } from '@/types';
-import { CURRENCIES, CURRENCY_BY_CODE } from '@/constants/currencies';
+import { ALL_CURRENCIES, CURRENCY_BY_CODE } from '@/constants/currencies';
 
 // jsDelivr mirrors of the data branch of the archive repo (CORS-friendly).
 const DATA_URL =
@@ -30,7 +30,7 @@ export async function loadExchangeData(): Promise<ExchangeData> {
   const dates = keys.map((k) => k.replace(/\//g, '-'));
 
   const series: ExchangeData['series'] = {};
-  for (const c of CURRENCIES) {
+  for (const c of ALL_CURRENCIES) {
     series[c.code] = {
       buy: new Float64Array(keys.length),
       sell: new Float64Array(keys.length),
@@ -40,7 +40,7 @@ export async function loadExchangeData(): Promise<ExchangeData> {
   for (let i = 0; i < keys.length; i++) {
     const row = raw[keys[i]];
     if (!row) continue;
-    for (const c of CURRENCIES) {
+    for (const c of ALL_CURRENCIES) {
       const entry = row[c.code];
       if (!entry) {
         if (i > 0) {

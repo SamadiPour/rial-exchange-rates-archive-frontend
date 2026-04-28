@@ -272,6 +272,13 @@ const tooltipBits = computed<TooltipBits | null>(() => {
   };
 });
 
+const tooltipSeries = computed(() =>
+  displaySeries.value.map((s) => ({
+    ...s,
+    currency: CURRENCY_BY_CODE[s.code],
+  })),
+);
+
 function hoverDotY(vals: number[]): number | null {
   if (hover.value == null) return null;
   return yMap(vals[hover.value]);
@@ -433,13 +440,14 @@ function hoverValText(code: string): string {
       }"
     >
       <div class="tooltip-date">{{ tooltipBits.dateLbl }}</div>
-      <div v-for="s in displaySeries" :key="s.code" class="tooltip-row">
+      <div v-for="s in tooltipSeries" :key="s.code" class="tooltip-row">
         <span class="tooltip-label">
           <span
             class="swatch"
             :style="{ background: colorFor(s.code, isDark) }"
           />
-          {{ CURRENCY_BY_CODE[s.code]?.flag }} {{ s.code.toUpperCase() }}
+          {{ s.currency?.flag }}
+          {{ s.currency?.name ?? s.code }}
         </span>
         <span class="tooltip-val num">{{ hoverValText(s.code) }}</span>
       </div>
