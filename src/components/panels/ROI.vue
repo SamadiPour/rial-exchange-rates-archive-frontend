@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import type { Calendar, ExchangeData, PriceType } from '@/types';
-import { CURRENCIES } from '@/constants/currencies';
+import { ALL_CURRENCIES } from '@/constants/currencies';
 import { findIndexAtOrBefore, rateAt } from '@/services/exchange-rates';
 import { fmtPct, fmtToman } from '@/utils/format';
 import DatePicker from '@/components/controls/DatePicker.vue';
@@ -32,7 +32,7 @@ const rows = computed<RoiRow[]>(() => {
   const i1 = findIndexAtOrBefore(props.data.dates, endISO.value);
   const years = Math.max(0.01, (i1 - i0) / 365.25);
 
-  const out = CURRENCIES.map((c) => {
+  const out = ALL_CURRENCIES.map((c) => {
     const r0 = rateAt(props.data, c.code, i0, props.priceType);
     const r1 = rateAt(props.data, c.code, i1, props.priceType);
     if (!isFinite(r0) || !isFinite(r1) || r0 <= 0) return null;

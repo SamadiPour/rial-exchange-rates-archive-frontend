@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import type { Calendar, ExchangeData, PriceType } from '@/types';
-import { CURRENCIES, TOMAN } from '@/constants/currencies';
+import { CURRENCIES, COINS, TOMAN } from '@/constants/currencies';
 import { findIndexAtOrBefore, rateAt } from '@/services/exchange-rates';
 import { fmtNumberPretty } from '@/utils/format';
 import CurrencySelect from '@/components/controls/CurrencySelect.vue';
@@ -33,7 +33,7 @@ const result = computed(() => {
   return (amount.value * fromToman) / toToman;
 });
 
-const options = computed(() => [TOMAN, ...CURRENCIES]);
+const options = computed(() => [TOMAN, ...CURRENCIES, ...COINS]);
 
 watch(from, (val, oldVal) => {
   if (val === to.value) to.value = oldVal;

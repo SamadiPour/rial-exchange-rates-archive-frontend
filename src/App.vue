@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import type { ExchangeData } from '@/types';
-import { CURRENCIES } from '@/constants/currencies';
+import { ALL_CURRENCIES } from '@/constants/currencies';
 import { RANGE_PRESETS } from '@/constants/presets';
 import { loadExchangeData, rateAt } from '@/services/exchange-rates';
 import { fmtDate, shiftDate } from '@/utils/date';
@@ -201,7 +201,7 @@ function handleShare() {
 
     <AppFooter
       :total-days="data.dates.length"
-      :total-currencies="CURRENCIES.length"
+      :total-currencies="ALL_CURRENCIES.length"
     />
 
     <Transition name="toast-fade">

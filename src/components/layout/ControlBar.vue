@@ -7,7 +7,7 @@ import type {
   Scale,
   Theme,
 } from '@/types';
-import { CURRENCIES, colorFor } from '@/constants/currencies';
+import { CURRENCIES, COINS, colorFor } from '@/constants/currencies';
 import { RANGE_PRESETS } from '@/constants/presets';
 import DatePicker from '@/components/controls/DatePicker.vue';
 
@@ -178,6 +178,27 @@ function setMode(m: Mode, currentScale: Scale) {
       >
         <span class="flag">{{ c.flag }}</span>
         <span>{{ c.code.toUpperCase() }}</span>
+      </button>
+    </div>
+
+    <div class="currency-chips">
+      <button
+        v-for="c in COINS"
+        :key="c.code"
+        class="cur-chip"
+        :class="{ active: codes.includes(c.code) }"
+        :style="
+          codes.includes(c.code)
+            ? {
+                borderColor: colorFor(c.code, theme === 'dark'),
+                color: colorFor(c.code, theme === 'dark'),
+              }
+            : {}
+        "
+        @click="$emit('toggleCode', c.code)"
+      >
+        <!--        <span class="flag">{{ c.flag }}</span>-->
+        <span>{{ c.name }}</span>
       </button>
     </div>
   </section>
