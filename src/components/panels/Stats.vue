@@ -4,6 +4,7 @@ import type { Currency, ExchangeData, PriceType } from '@/types';
 import { CURRENCY_BY_CODE } from '@/constants/currencies';
 import { findIndexAtOrBefore, priceOf } from '@/services/exchange-rates';
 import { fmtPct, fmtToman } from '@/utils/format';
+import CurrencyIcon from '@/components/icons/CurrencyIcon.vue';
 
 const props = defineProps<{
   data: ExchangeData;
@@ -69,7 +70,8 @@ const rows = computed<Row[]>(() => {
     <div class="stats-grid">
       <div v-for="r in rows" :key="r.code" class="stat-card">
         <div class="stat-label">
-          {{ r.meta?.flag }} {{ r.code.toUpperCase() }} — {{ r.meta?.name }}
+          <CurrencyIcon :flag="r.meta?.flag ?? ''" :code="r.code" />
+          {{ r.code.toUpperCase() }} — {{ r.meta?.name }}
         </div>
         <div class="stat-value num">
           {{ fmtToman(r.v1) }}

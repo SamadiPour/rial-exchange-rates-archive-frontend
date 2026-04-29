@@ -2,6 +2,7 @@
 import { computed, nextTick, ref, watch } from 'vue';
 import type { Currency } from '@/types';
 import { useOnClickOutside } from '@/composables/useOnClickOutside';
+import CurrencyIcon from '@/components/icons/CurrencyIcon.vue';
 
 const props = defineProps<{
   modelValue: string;
@@ -50,7 +51,7 @@ function pick(code: string) {
   <div ref="wrap" class="cs-wrap">
     <button type="button" class="cs-trigger" @click="open = !open">
       <span class="cs-trigger-inner">
-        <span>{{ selected?.flag }}</span>
+        <CurrencyIcon :flag="selected?.flag ?? ''" :code="selected?.code ?? ''" />
         <span class="code">{{ selected?.code.toUpperCase() }}</span>
         <span class="name">{{ selected?.name }}</span>
       </span>
@@ -72,7 +73,7 @@ function pick(code: string) {
           :class="{ active: o.code === modelValue }"
           @click="pick(o.code)"
         >
-          <span>{{ o.flag }}</span>
+          <CurrencyIcon :flag="o.flag" :code="o.code" />
           <span class="option-code">{{ o.code.toUpperCase() }}</span>
           <span class="option-name">{{ o.name }}</span>
         </button>

@@ -10,6 +10,7 @@ import type {
 import { CURRENCIES, COINS, colorFor } from '@/constants/currencies';
 import { RANGE_PRESETS } from '@/constants/presets';
 import DatePicker from '@/components/controls/DatePicker.vue';
+import CoinIcon from '@/components/icons/CoinIcon.vue';
 
 defineProps<{
   data: ExchangeData;
@@ -113,13 +114,6 @@ function setMode(m: Mode, currentScale: Scale) {
           </button>
           <button
             class="chip"
-            :class="{ active: mode === 'indexed' }"
-            @click="setMode('indexed', scale)"
-          >
-            Indexed
-          </button>
-          <button
-            class="chip"
             :class="{ active: mode === 'roi' }"
             @click="setMode('roi', scale)"
           >
@@ -197,7 +191,7 @@ function setMode(m: Mode, currentScale: Scale) {
         "
         @click="$emit('toggleCode', c.code)"
       >
-        <!--        <span class="flag">{{ c.flag }}</span>-->
+        <CoinIcon :code="c.code" />
         <span>{{ c.name }}</span>
       </button>
     </div>

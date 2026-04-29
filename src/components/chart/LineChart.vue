@@ -14,6 +14,7 @@ import { findIndexAtOrBefore, priceOf } from '@/services/exchange-rates';
 import { isoToJalali } from '@/utils/date';
 import { fmtToman } from '@/utils/format';
 import { useElementWidth } from '@/composables/useElementWidth';
+import CurrencyIcon from '@/components/icons/CurrencyIcon.vue';
 
 const props = defineProps<{
   data: ExchangeData;
@@ -81,15 +82,6 @@ const slice = computed<Series[]>(() => {
 });
 
 const displaySeries = computed<Series[]>(() => {
-  if (props.mode === 'indexed') {
-    return slice.value.map((s) => {
-      const base = s.vals.find((v) => isFinite(v) && v > 0);
-      return {
-        code: s.code,
-        vals: s.vals.map((v) => (isFinite(v) && base ? (v / base) * 100 : NaN)),
-      };
-    });
-  }
   if (props.mode === 'roi') {
     return slice.value.map((s) => {
       const base = s.vals.find((v) => isFinite(v) && v > 0);
@@ -227,7 +219,6 @@ const visibleAnnos = computed<VisibleAnno[]>(() => {
 
 function fmtY(v: number): string {
   if (props.mode === 'roi') return (v >= 0 ? '+' : '') + v.toFixed(0) + '%';
-  if (props.mode === 'indexed') return v.toFixed(0);
   if (v >= 1000) return (v / 1000).toFixed(v >= 1e4 ? 0 : 1) + 'K';
   return v.toFixed(0);
 }
@@ -292,7 +283,6 @@ function hoverValText(code: string): string {
   if (props.mode === 'roi') {
     return isFinite(v) ? (v >= 0 ? '+' : '') + v.toFixed(2) + '%' : '—';
   }
-  if (props.mode === 'indexed') return isFinite(v) ? v.toFixed(1) : '—';
   return fmtToman(v);
 }
 </script>
@@ -446,7 +436,11 @@ function hoverValText(code: string): string {
             class="swatch"
             :style="{ background: colorFor(s.code, isDark) }"
           />
-          {{ s.currency?.flag }}
+          <CurrencyIcon
+            v-if="s.currency"
+            :flag="s.currency.flag"
+            :code="s.currency.code"
+          />
           {{ s.currency?.name ?? s.code }}
         </span>
         <span class="tooltip-val num">{{ hoverValText(s.code) }}</span>

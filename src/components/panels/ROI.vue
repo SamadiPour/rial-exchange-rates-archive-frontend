@@ -6,6 +6,7 @@ import { findIndexAtOrBefore, rateAt } from '@/services/exchange-rates';
 import { fmtPct, fmtToman } from '@/utils/format';
 import DatePicker from '@/components/controls/DatePicker.vue';
 import NumberInput from '@/components/controls/NumberInput.vue';
+import CurrencyIcon from '@/components/icons/CurrencyIcon.vue';
 
 const props = defineProps<{
   data: ExchangeData;
@@ -21,6 +22,7 @@ const amount = ref(100000000);
 
 interface RoiRow {
   code: string;
+  name: string;
   flag: string;
   endToman: number;
   roi: number;
@@ -40,7 +42,7 @@ const rows = computed<RoiRow[]>(() => {
     const endToman = units * r1;
     const roi = ((endToman - amount.value) / amount.value) * 100;
     const cagr = (Math.pow(endToman / amount.value, 1 / years) - 1) * 100;
-    return { code: c.code, flag: c.flag, endToman, roi, cagr };
+    return { code: c.code, name: c.name, flag: c.flag, endToman, roi, cagr };
   }).filter((r): r is RoiRow => r != null);
 
   out.sort((a, b) => b.roi - a.roi);
@@ -95,7 +97,7 @@ const rows = computed<RoiRow[]>(() => {
         <tbody>
           <tr v-for="(r, i) in rows" :key="r.code">
             <td class="muted">{{ i + 1 }}</td>
-            <td>{{ r.flag }} {{ r.code.toUpperCase() }}</td>
+            <td><CurrencyIcon :flag="r.flag" :code="r.code" /> {{ r.name }}</td>
             <td class="align-right num">{{ fmtToman(r.endToman) }}</td>
             <td class="align-right" :class="r.roi >= 0 ? 'up' : 'down'">
               {{ fmtPct(r.roi, 1) }}

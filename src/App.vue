@@ -124,7 +124,6 @@ function handleShare() {
           <div class="mono-tiny chart-range">
             {{ fmtDate(range.rangeStart, state.calendar) }} —
             {{ fmtDate(range.rangeEnd, state.calendar) }}
-            <template v-if="state.mode === 'indexed'"> · indexed</template>
             <template v-if="state.mode === 'roi'"> · ROI %</template>
           </div>
           <ExportMenu
@@ -233,7 +232,9 @@ function handleShare() {
 }
 
 .chart-range {
-  color: var(--muted);
+  color: var(--fg);
+  font-weight: 700;
+  margin-left: 8px;
 }
 
 .tabs {

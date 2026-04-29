@@ -7,7 +7,7 @@ export interface Currency {
 
 export type PriceType = 'buy' | 'sell' | 'mid';
 export type Scale = 'linear' | 'log';
-export type Mode = 'absolute' | 'indexed' | 'roi';
+export type Mode = 'absolute' | 'roi';
 export type Calendar = 'gregorian' | 'jalali';
 export type Theme = 'dark' | 'light';
 export type PresetId =
