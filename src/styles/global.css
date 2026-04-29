@@ -192,6 +192,10 @@ body[data-theme='light'] .data-table tr:hover td {
   text-align: right;
 }
 
+.data-table th.align-right {
+  text-align: right;
+}
+
 @keyframes pulse {
   0%,
   100% {
