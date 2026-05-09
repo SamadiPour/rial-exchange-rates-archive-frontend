@@ -101,9 +101,11 @@ function onSegInput(which: 'y' | 'm' | 'd', e: Event, maxLen: number) {
 
   if (cleaned.length === maxLen) {
     if (which === 'y') {
+      editing.value = 'm';
       mInput.value?.focus();
       mInput.value?.select();
     } else if (which === 'm') {
+      editing.value = 'd';
       dInput.value?.focus();
       dInput.value?.select();
     }
@@ -121,7 +123,8 @@ function onSegInput(which: 'y' | 'm' | 'd', e: Event, maxLen: number) {
   }
 }
 
-function onSegBlur() {
+function onSegBlur(which: 'y' | 'm' | 'd') {
+  if (editing.value !== which) return; // focus moved to another segment
   editing.value = null;
   const filled: Parts = {
     y: draft.y || parts.value.y,
@@ -133,8 +136,10 @@ function onSegBlur() {
 }
 
 function onSegFocus(which: 'y' | 'm' | 'd', e: Event) {
+  if (!editing.value) {
+    Object.assign(draft, parts.value);
+  }
   editing.value = which;
-  Object.assign(draft, parts.value);
   nextTick(() => {
     (e.target as HTMLInputElement).select();
   });
@@ -308,7 +313,7 @@ function latest() {
         class="dp-seg seg-y"
         @focus="onSegFocus('y', $event)"
         @input="onSegInput('y', $event, 4)"
-        @blur="onSegBlur"
+        @blur="onSegBlur('y')"
         @keydown="onKey('y', $event)"
       />
       <span class="dp-sep">/</span>
@@ -321,7 +326,7 @@ function latest() {
         class="dp-seg seg-m"
         @focus="onSegFocus('m', $event)"
         @input="onSegInput('m', $event, 2)"
-        @blur="onSegBlur"
+        @blur="onSegBlur('m')"
         @keydown="onKey('m', $event)"
       />
       <span class="dp-sep">/</span>
@@ -334,7 +339,7 @@ function latest() {
         class="dp-seg seg-d"
         @focus="onSegFocus('d', $event)"
         @input="onSegInput('d', $event, 2)"
-        @blur="onSegBlur"
+        @blur="onSegBlur('d')"
         @keydown="onKey('d', $event)"
       />
       <button
